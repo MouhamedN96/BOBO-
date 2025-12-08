@@ -1,0 +1,19 @@
+{
+  "name": "njooba",
+  "private": true,
+  "version": "0.1.0",
+  "description": "NJOOBA - Pan-African Developer Community Platform",
+  "scripts": {
+    "dev": "pnpm --filter webapp dev",
+    "build": "pnpm --filter webapp build",
+    "lint": "pnpm -r lint",
+    "clean": "pnpm -r clean"
+  },
+  "keywords": ["njooba", "pan-african", "developer-community", "africa", "tech"],
+  "author": "NJOOBA Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  }
+}
