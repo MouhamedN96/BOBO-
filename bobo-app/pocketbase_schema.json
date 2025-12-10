@@ -1,0 +1,509 @@
+{
+  "collections": [
+    {
+      "name": "profiles",
+      "type": "base",
+      "system": false,
+      "schema": [
+        {
+          "name": "user_id",
+          "type": "relation",
+          "required": true,
+          "unique": true,
+          "options": {
+            "collectionId": "_pb_users_auth_",
+            "cascadeDelete": true,
+            "maxSelect": 1
+          }
+        },
+        {
+          "name": "username",
+          "type": "text",
+          "required": true,
+          "unique": true,
+          "options": {
+            "min": 3,
+            "max": 20,
+            "pattern": "^[a-zA-Z0-9_-]+$"
+          }
+        },
+        {
+          "name": "full_name",
+          "type": "text",
+          "required": false,
+          "options": { "max": 100 }
+        },
+        {
+          "name": "avatar_url",
+          "type": "file",
+          "required": false,
+          "options": {
+            "maxSelect": 1,
+            "maxSize": 5242880,
+            "mimeTypes": ["image/jpeg", "image/png", "image/webp"]
+          }
+        },
+        {
+          "name": "bio",
+          "type": "text",
+          "required": false,
+          "options": { "max": 500 }
+        },
+        {
+          "name": "phone_number",
+          "type": "text",
+          "required": false,
+          "options": { "pattern": "^\\+?[0-9]{8,15}$" }
+        },
+        {
+          "name": "is_merchant",
+          "type": "bool",
+          "required": true,
+          "options": { "default": false }
+        },
+        {
+          "name": "level",
+          "type": "number",
+          "required": true,
+          "options": { "min": 1, "max": 9999, "default": 1 }
+        },
+        {
+          "name": "xp",
+          "type": "number",
+          "required": true,
+          "options": { "min": 0, "default": 0 }
+        },
+        {
+          "name": "streak_days",
+          "type": "number",
+          "required": true,
+          "options": { "min": 0, "default": 0 }
+        },
+        {
+          "name": "last_activity_date",
+          "type": "date",
+          "required": false
+        },
+        {
+          "name": "total_posts",
+          "type": "number",
+          "required": true,
+          "options": { "min": 0, "default": 0 }
+        },
+        {
+          "name": "total_sales",
+          "type": "number",
+          "required": true,
+          "options": { "min": 0, "default": 0 }
+        },
+        {
+          "name": "seller_rating",
+          "type": "number",
+          "required": false,
+          "options": { "min": 0, "max": 5 }
+        },
+        {
+          "name": "fcm_token",
+          "type": "text",
+          "required": false
+        }
+      ],
+      "listRule": "",
+      "viewRule": "",
+      "createRule": "@request.auth.id != ''",
+      "updateRule": "@request.auth.id = user_id",
+      "deleteRule": null
+    },
+    {
+      "name": "products",
+      "type": "base",
+      "system": false,
+      "schema": [
+        {
+          "name": "seller_id",
+          "type": "relation",
+          "required": true,
+          "options": {
+            "collectionId": "profiles",
+            "cascadeDelete": true,
+            "maxSelect": 1
+          }
+        },
+        {
+          "name": "sku",
+          "type": "text",
+          "required": true,
+          "unique": true,
+          "options": { "pattern": "^[A-Z0-9-]+$" }
+        },
+        {
+          "name": "title",
+          "type": "text",
+          "required": true,
+          "options": { "min": 1, "max": 200 }
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "required": false,
+          "options": { "max": 2000 }
+        },
+        {
+          "name": "price",
+          "type": "number",
+          "required": true,
+          "options": { "min": 0 }
+        },
+        {
+          "name": "discount_price",
+          "type": "number",
+          "required": false,
+          "options": { "min": 0 }
+        },
+        {
+          "name": "category",
+          "type": "select",
+          "required": true,
+          "options": {
+            "values": ["fashion", "electronics", "beauty", "food", "home", "other"]
+          }
+        },
+        {
+          "name": "tags",
+          "type": "json",
+          "required": false
+        },
+        {
+          "name": "image_url",
+          "type": "file",
+          "required": true,
+          "options": {
+            "maxSelect": 1,
+            "maxSize": 10485760,
+            "mimeTypes": ["image/jpeg", "image/png", "image/webp"]
+          }
+        },
+        {
+          "name": "video_url",
+          "type": "file",
+          "required": false,
+          "options": {
+            "maxSelect": 1,
+            "maxSize": 52428800,
+            "mimeTypes": ["video/mp4"]
+          }
+        },
+        {
+          "name": "stock_quantity",
+          "type": "number",
+          "required": true,
+          "options": { "min": 0, "default": 0 }
+        },
+        {
+          "name": "upvotes",
+          "type": "number",
+          "required": true,
+          "options": { "min": 0, "default": 0 }
+        },
+        {
+          "name": "view_count",
+          "type": "number",
+          "required": true,
+          "options": { "min": 0, "default": 0 }
+        },
+        {
+          "name": "is_featured",
+          "type": "bool",
+          "required": true,
+          "options": { "default": false }
+        },
+        {
+          "name": "is_active",
+          "type": "bool",
+          "required": true,
+          "options": { "default": true }
+        }
+      ],
+      "listRule": "is_active = true || @request.auth.id = seller_id.user_id",
+      "viewRule": "",
+      "createRule": "@request.auth.id != '' && @request.auth.id = seller_id.user_id",
+      "updateRule": "@request.auth.id = seller_id.user_id",
+      "deleteRule": "@request.auth.id = seller_id.user_id"
+    },
+    {
+      "name": "orders",
+      "type": "base",
+      "system": false,
+      "schema": [
+        {
+          "name": "buyer_id",
+          "type": "relation",
+          "required": true,
+          "options": {
+            "collectionId": "profiles",
+            "cascadeDelete": false,
+            "maxSelect": 1
+          }
+        },
+        {
+          "name": "seller_id",
+          "type": "relation",
+          "required": true,
+          "options": {
+            "collectionId": "profiles",
+            "cascadeDelete": false,
+            "maxSelect": 1
+          }
+        },
+        {
+          "name": "product_id",
+          "type": "relation",
+          "required": true,
+          "options": {
+            "collectionId": "products",
+            "cascadeDelete": false,
+            "maxSelect": 1
+          }
+        },
+        {
+          "name": "quantity",
+          "type": "number",
+          "required": true,
+          "options": { "min": 1 }
+        },
+        {
+          "name": "unit_price",
+          "type": "number",
+          "required": true,
+          "options": { "min": 0 }
+        },
+        {
+          "name": "total_price",
+          "type": "number",
+          "required": true,
+          "options": { "min": 0 }
+        },
+        {
+          "name": "status",
+          "type": "select",
+          "required": true,
+          "options": {
+            "values": ["pending_payment", "paid", "processing", "shipped", "delivered", "cancelled", "disputed"]
+          }
+        },
+        {
+          "name": "payment_method",
+          "type": "select",
+          "required": false,
+          "options": {
+            "values": ["wave", "orange_money", "cash"]
+          }
+        },
+        {
+          "name": "payment_reference",
+          "type": "text",
+          "required": false
+        },
+        {
+          "name": "shipping_address",
+          "type": "text",
+          "required": false,
+          "options": { "max": 500 }
+        },
+        {
+          "name": "phone_number",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "tracking_number",
+          "type": "text",
+          "required": false
+        }
+      ],
+      "listRule": "@request.auth.id = buyer_id.user_id || @request.auth.id = seller_id.user_id",
+      "viewRule": "@request.auth.id = buyer_id.user_id || @request.auth.id = seller_id.user_id",
+      "createRule": "@request.auth.id != ''",
+      "updateRule": "@request.auth.id = seller_id.user_id",
+      "deleteRule": null
+    },
+    {
+      "name": "conversations",
+      "type": "base",
+      "system": false,
+      "schema": [
+        {
+          "name": "customer_id",
+          "type": "relation",
+          "required": true,
+          "options": {
+            "collectionId": "profiles",
+            "cascadeDelete": true,
+            "maxSelect": 1
+          }
+        },
+        {
+          "name": "merchant_id",
+          "type": "relation",
+          "required": true,
+          "options": {
+            "collectionId": "profiles",
+            "cascadeDelete": true,
+            "maxSelect": 1
+          }
+        },
+        {
+          "name": "product_id",
+          "type": "relation",
+          "required": false,
+          "options": {
+            "collectionId": "products",
+            "cascadeDelete": false,
+            "maxSelect": 1
+          }
+        },
+        {
+          "name": "last_message",
+          "type": "text",
+          "required": false,
+          "options": { "max": 500 }
+        },
+        {
+          "name": "last_message_at",
+          "type": "date",
+          "required": false
+        },
+        {
+          "name": "unread_count_customer",
+          "type": "number",
+          "required": true,
+          "options": { "min": 0, "default": 0 }
+        },
+        {
+          "name": "unread_count_merchant",
+          "type": "number",
+          "required": true,
+          "options": { "min": 0, "default": 0 }
+        }
+      ],
+      "listRule": "@request.auth.id = customer_id.user_id || @request.auth.id = merchant_id.user_id",
+      "viewRule": "@request.auth.id = customer_id.user_id || @request.auth.id = merchant_id.user_id",
+      "createRule": "@request.auth.id != ''",
+      "updateRule": "@request.auth.id = customer_id.user_id || @request.auth.id = merchant_id.user_id",
+      "deleteRule": null
+    },
+    {
+      "name": "messages",
+      "type": "base",
+      "system": false,
+      "schema": [
+        {
+          "name": "conversation_id",
+          "type": "relation",
+          "required": true,
+          "options": {
+            "collectionId": "conversations",
+            "cascadeDelete": true,
+            "maxSelect": 1
+          }
+        },
+        {
+          "name": "sender_id",
+          "type": "relation",
+          "required": true,
+          "options": {
+            "collectionId": "profiles",
+            "cascadeDelete": true,
+            "maxSelect": 1
+          }
+        },
+        {
+          "name": "message_type",
+          "type": "select",
+          "required": true,
+          "options": {
+            "values": ["text", "voice", "image"]
+          }
+        },
+        {
+          "name": "content",
+          "type": "text",
+          "required": false,
+          "options": { "max": 5000 }
+        },
+        {
+          "name": "media_url",
+          "type": "file",
+          "required": false,
+          "options": {
+            "maxSelect": 1,
+            "maxSize": 10485760,
+            "mimeTypes": ["audio/m4a", "audio/aac", "image/jpeg", "image/png"]
+          }
+        },
+        {
+          "name": "media_duration",
+          "type": "number",
+          "required": false,
+          "options": { "min": 0 }
+        },
+        {
+          "name": "read",
+          "type": "bool",
+          "required": true,
+          "options": { "default": false }
+        }
+      ],
+      "listRule": "@request.auth.id = conversation_id.customer_id.user_id || @request.auth.id = conversation_id.merchant_id.user_id",
+      "viewRule": "@request.auth.id = conversation_id.customer_id.user_id || @request.auth.id = conversation_id.merchant_id.user_id",
+      "createRule": "@request.auth.id != ''",
+      "updateRule": "@request.auth.id = sender_id.user_id",
+      "deleteRule": "@request.auth.id = sender_id.user_id"
+    },
+    {
+      "name": "achievements",
+      "type": "base",
+      "system": false,
+      "schema": [
+        {
+          "name": "user_id",
+          "type": "relation",
+          "required": true,
+          "options": {
+            "collectionId": "profiles",
+            "cascadeDelete": true,
+            "maxSelect": 1
+          }
+        },
+        {
+          "name": "title",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "icon",
+          "type": "select",
+          "required": true,
+          "options": {
+            "values": ["sankofa", "gyenyame", "dwennimmen", "fihankra", "mpatapo"]
+          }
+        },
+        {
+          "name": "unlocked_at",
+          "type": "date",
+          "required": true
+        }
+      ],
+      "listRule": "",
+      "viewRule": "",
+      "createRule": null,
+      "updateRule": null,
+      "deleteRule": null
+    }
+  ]
+}
