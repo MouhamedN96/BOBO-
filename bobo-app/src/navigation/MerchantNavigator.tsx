@@ -5,12 +5,15 @@
 
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { colors } from '../theme'
 
-// Placeholder screens (will create these next)
+// Screens
 import { Text, View, StyleSheet } from 'react-native'
+import { ProductsListScreen } from '../screens/merchant/ProductsListScreen'
+import { AddProductScreen } from '../screens/merchant/AddProductScreen'
 
-// Temporary placeholder component
+// Placeholder screens
 const PlaceholderScreen = ({ title }: { title: string }) => (
   <View style={styles.placeholder}>
     <Text style={styles.placeholderText}>{title}</Text>
@@ -19,12 +22,28 @@ const PlaceholderScreen = ({ title }: { title: string }) => (
 )
 
 const DashboardScreen = () => <PlaceholderScreen title="📊 Dashboard" />
-const ProductsScreen = () => <PlaceholderScreen title="📦 Mes Produits" />
 const OrdersScreen = () => <PlaceholderScreen title="🛒 Commandes" />
 const ChatListScreen = () => <PlaceholderScreen title="💬 Messages" />
 const ProfileScreen = () => <PlaceholderScreen title="👤 Profil" />
 
 const Tab = createBottomTabNavigator()
+const Stack = createNativeStackNavigator()
+
+// Products Stack Navigator
+const ProductsStack = () => (
+  <Stack.Navigator>
+    <Stack.Screen
+      name="ProductsList"
+      component={ProductsListScreen}
+      options={{ title: 'Mes Produits' }}
+    />
+    <Stack.Screen
+      name="AddProduct"
+      component={AddProductScreen}
+      options={{ title: 'Ajouter un Produit' }}
+    />
+  </Stack.Navigator>
+)
 
 export const MerchantNavigator = () => {
   return (
@@ -52,10 +71,11 @@ export const MerchantNavigator = () => {
       />
       <Tab.Screen
         name="Products"
-        component={ProductsScreen}
+        component={ProductsStack}
         options={{
           title: 'Produits',
           tabBarIcon: ({ color }) => <Text style={{ fontSize: 24 }}>📦</Text>,
+          headerShown: false,
         }}
       />
       <Tab.Screen
