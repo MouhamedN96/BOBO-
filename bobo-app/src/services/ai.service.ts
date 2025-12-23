@@ -433,7 +433,86 @@ export class RecommendationEngine {
 }
 
 // ============================================================================
-// UNIFIED AI SEARCH SERVICE
+// VERCEL AI SDK INTEGRATION (Hybrid Approach)
+// ============================================================================
+
+const VERCEL_API_BASE = process.env.EXPO_PUBLIC_VERCEL_API_URL || 'https://bobo-ai-api.vercel.app'
+
+export class VercelAIService {
+  /**
+   * Check if query is complex enough to warrant AI
+   * Simple queries use local NLP, complex ones use Vercel AI
+   */
+  static isComplexQuery(query: string): boolean {
+    const complexityIndicators = [
+      query.length > 30, // Long queries
+      query.includes('?'), // Questions
+      query.split(' ').length > 5, // Many words
+      /comme|similar|ressemble|style/.test(query), // Similarity search
+      /quoi|quel|comment/.test(query), // Question words
+      /pour\s+(un|une|le|la)/.test(query), // Intent-based "for a..."
+    ]
+
+    return complexityIndicators.filter(Boolean).length >= 2
+  }
+
+  /**
+   * Call Vercel AI smart search endpoint
+   */
+  static async smartSearchWithAI(query: string, userId?: string): Promise<SearchIntent> {
+    try {
+      const response = await fetch(`${VERCEL_API_BASE}/api/smart-search`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query, userId }),
+      })
+
+      if (!response.ok) {
+        throw new Error('AI search failed')
+      }
+
+      return await response.json()
+    } catch (error) {
+      console.error('Vercel AI search failed, falling back to local NLP:', error)
+      // Fallback to local NLP
+      return NLPEngine.parseQuery(query)
+    }
+  }
+
+  /**
+   * Visual search using AI vision models
+   */
+  static async visualSearchWithAI(
+    imageBase64: string,
+    userId?: string
+  ): Promise<{
+    category: string
+    keywords: string[]
+    colors: string[]
+    description: string
+    suggestedSearchQuery: string
+  }> {
+    try {
+      const response = await fetch(`${VERCEL_API_BASE}/api/visual-search`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ imageBase64, userId }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Visual search failed')
+      }
+
+      return await response.json()
+    } catch (error) {
+      console.error('Visual search failed:', error)
+      throw error
+    }
+  }
+}
+
+// ============================================================================
+// UNIFIED AI SEARCH SERVICE (HYBRID)
 // ============================================================================
 
 export class AISearchService {
@@ -455,16 +534,40 @@ export class AISearchService {
   }
 
   /**
-   * Perform smart search with NLP
+   * HYBRID SEARCH: Automatically chooses local NLP or Vercel AI
+   * Simple searches: Local NLP (instant, free, offline)
+   * Complex searches: Vercel AI (better understanding, slower)
    */
-  static async smartSearch(rawQuery: string, userId?: string): Promise<Product[]> {
-    // Parse query with NLP
-    const intent = NLPEngine.parseQuery(rawQuery)
+  static async hybridSearch(rawQuery: string, userId?: string): Promise<SearchIntent> {
+    // Decide which approach to use
+    const isComplex = VercelAIService.isComplexQuery(rawQuery)
 
-    // Save to history for recommendations
+    let intent: SearchIntent
+
+    if (isComplex) {
+      // Use Vercel AI for complex queries
+      console.log('🤖 Using Vercel AI for complex query:', rawQuery)
+      intent = await VercelAIService.smartSearchWithAI(rawQuery, userId)
+    } else {
+      // Use local NLP for simple queries
+      console.log('⚡ Using local NLP for simple query:', rawQuery)
+      intent = NLPEngine.parseQuery(rawQuery)
+    }
+
+    // Save to history
     if (userId) {
       await this.saveSearchHistory(userId, intent)
     }
+
+    return intent
+  }
+
+  /**
+   * Perform smart search with hybrid AI
+   */
+  static async smartSearch(rawQuery: string, userId?: string): Promise<Product[]> {
+    // Get search intent (hybrid: local or AI)
+    const intent = await this.hybridSearch(rawQuery, userId)
 
     // Build PocketBase filter
     const filters: string[] = ['stock_quantity > 0']
@@ -500,5 +603,16 @@ export class AISearchService {
     })
 
     return products.items
+  }
+
+  /**
+   * Visual search: Find products by image
+   */
+  static async visualSearch(imageBase64: string, userId?: string): Promise<Product[]> {
+    // Use Vercel AI vision
+    const result = await VercelAIService.visualSearchWithAI(imageBase64, userId)
+
+    // Use the suggested search query
+    return this.smartSearch(result.suggestedSearchQuery, userId)
   }
 }

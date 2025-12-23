@@ -1,6 +1,6 @@
 /**
  * Discovery Screen (Customer)
- * Main feed with trending, deals, and product suggestions
+ * Main feed with trending, deals, and AI-powered smart search
  */
 
 import React, { useState, useEffect } from 'react'
@@ -13,9 +13,13 @@ import {
   StyleSheet,
   RefreshControl,
   ScrollView,
+  Alert,
+  ActivityIndicator,
 } from 'react-native'
 import { ProductCard } from '../../components/ProductCard'
 import { productsService } from '../../services/products.service'
+import { AISearchService, VisualSearch } from '../../services/ai.service'
+import { useAuthStore } from '../../store/authStore'
 import { colors, typography, spacing } from '../../theme'
 import type { Product } from '../../types/models'
 
@@ -29,6 +33,7 @@ const CATEGORIES = [
 ]
 
 export const DiscoveryScreen = ({ navigation }: any) => {
+  const { profile } = useAuthStore()
   const [products, setProducts] = useState<Product[]>([])
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([])
   const [isLoading, setIsLoading] = useState(false)
@@ -36,6 +41,8 @@ export const DiscoveryScreen = ({ navigation }: any) => {
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [page, setPage] = useState(1)
+  const [isAISearching, setIsAISearching] = useState(false)
+  const [aiSearchMode, setAiSearchMode] = useState<'local' | 'ai' | null>(null)
 
   const loadProducts = async (reset: boolean = false) => {
     if (isLoading) return
@@ -70,8 +77,81 @@ export const DiscoveryScreen = ({ navigation }: any) => {
   }
 
   const handleSearch = async () => {
+    if (!searchQuery.trim()) {
+      setPage(1)
+      await loadProducts(true)
+      return
+    }
+
+    setIsAISearching(true)
     setPage(1)
-    await loadProducts(true)
+
+    try {
+      // Use hybrid AI search
+      const results = await AISearchService.smartSearch(searchQuery, profile?.id)
+      setProducts(results)
+      setAiSearchMode(results.length > 0 ? 'ai' : 'local')
+    } catch (error) {
+      console.error('AI search failed:', error)
+      // Fallback to regular search
+      await loadProducts(true)
+    }
+
+    setIsAISearching(false)
+  }
+
+  const handleVisualSearch = async () => {
+    try {
+      // Pick image from gallery
+      const imageBase64 = await VisualSearch.pickImage()
+
+      if (!imageBase64) return
+
+      setIsAISearching(true)
+
+      // Perform visual search
+      const results = await AISearchService.visualSearch(imageBase64, profile?.id)
+      setProducts(results)
+      setAiSearchMode('ai')
+
+      Alert.alert('Recherche visuelle', `${results.length} produits similaires trouvés!`)
+    } catch (error: any) {
+      Alert.alert('Erreur', error.message || 'La recherche visuelle a échoué')
+    }
+
+    setIsAISearching(false)
+  }
+
+  const handleTakePhoto = async () => {
+    try {
+      const imageBase64 = await VisualSearch.takePhoto()
+
+      if (!imageBase64) return
+
+      setIsAISearching(true)
+
+      const results = await AISearchService.visualSearch(imageBase64, profile?.id)
+      setProducts(results)
+      setAiSearchMode('ai')
+
+      Alert.alert('Recherche par photo', `${results.length} produits similaires trouvés!`)
+    } catch (error: any) {
+      Alert.alert('Erreur', error.message || 'La recherche par photo a échoué')
+    }
+
+    setIsAISearching(false)
+  }
+
+  const handleVisualSearchOptions = () => {
+    Alert.alert(
+      '📸 Recherche visuelle AI',
+      'Trouvez des produits similaires à partir d\'une image',
+      [
+        { text: 'Galerie', onPress: handleVisualSearch },
+        { text: 'Prendre une photo', onPress: handleTakePhoto },
+        { text: 'Annuler', style: 'cancel' },
+      ]
+    )
   }
 
   useEffect(() => {
@@ -89,23 +169,25 @@ export const DiscoveryScreen = ({ navigation }: any) => {
 
   const renderHeader = () => (
     <View>
-      {/* Search Bar */}
+      {/* Search Bar with AI Features */}
       <View style={styles.searchContainer}>
         <View style={styles.searchBar}>
           <Text style={styles.searchIcon}>🔍</Text>
           <TextInput
             style={styles.searchInput}
-            placeholder="Rechercher des produits..."
+            placeholder="Rechercher avec AI..."
             placeholderTextColor={colors.text.tertiary}
             value={searchQuery}
             onChangeText={setSearchQuery}
             onSubmitEditing={handleSearch}
             returnKeyType="search"
           />
-          {searchQuery.length > 0 && (
+          {isAISearching && <ActivityIndicator size="small" color={colors.terracotta.primary} />}
+          {searchQuery.length > 0 && !isAISearching && (
             <TouchableOpacity
               onPress={() => {
                 setSearchQuery('')
+                setAiSearchMode(null)
                 handleSearch()
               }}
             >
@@ -113,7 +195,21 @@ export const DiscoveryScreen = ({ navigation }: any) => {
             </TouchableOpacity>
           )}
         </View>
+
+        {/* Visual Search Button */}
+        <TouchableOpacity style={styles.visualSearchButton} onPress={handleVisualSearchOptions}>
+          <Text style={styles.visualSearchIcon}>📸</Text>
+        </TouchableOpacity>
       </View>
+
+      {/* AI Search Mode Indicator */}
+      {aiSearchMode && (
+        <View style={styles.aiIndicator}>
+          <Text style={styles.aiIndicatorText}>
+            {aiSearchMode === 'ai' ? '🤖 Recherche AI active' : '⚡ Recherche rapide'}
+          </Text>
+        </View>
+      )}
 
       {/* Categories */}
       <ScrollView
@@ -240,15 +336,20 @@ const styles = StyleSheet.create({
     padding: spacing.base,
   },
   searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: spacing.md,
+    paddingHorizontal: spacing.base,
   },
   searchBar: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: colors.background.secondary,
     borderRadius: 12,
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.sm,
+    marginRight: spacing.sm,
   },
   searchIcon: {
     fontSize: 20,
@@ -262,6 +363,34 @@ const styles = StyleSheet.create({
   clearIcon: {
     ...typography.h3,
     color: colors.text.tertiary,
+    marginLeft: spacing.sm,
+  },
+  visualSearchButton: {
+    backgroundColor: colors.terracotta.primary,
+    borderRadius: 12,
+    width: 48,
+    height: 48,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  visualSearchIcon: {
+    fontSize: 24,
+  },
+  aiIndicator: {
+    backgroundColor: colors.savanna.gold + '20',
+    borderRadius: 8,
+    paddingVertical: spacing.xs,
+    paddingHorizontal: spacing.md,
+    marginHorizontal: spacing.base,
+    marginBottom: spacing.md,
+    borderWidth: 1,
+    borderColor: colors.savanna.gold,
+  },
+  aiIndicatorText: {
+    ...typography.caption,
+    color: colors.savanna.gold,
+    textAlign: 'center',
+    fontWeight: '600',
   },
   categoriesContainer: {
     marginBottom: spacing.md,

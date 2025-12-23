@@ -504,6 +504,61 @@
       "createRule": null,
       "updateRule": null,
       "deleteRule": null
+    },
+    {
+      "name": "search_history",
+      "type": "base",
+      "system": false,
+      "schema": [
+        {
+          "name": "user_id",
+          "type": "relation",
+          "required": true,
+          "options": {
+            "collectionId": "profiles",
+            "cascadeDelete": true,
+            "maxSelect": 1
+          }
+        },
+        {
+          "name": "query",
+          "type": "text",
+          "required": true,
+          "options": { "max": 500 }
+        },
+        {
+          "name": "category",
+          "type": "select",
+          "required": false,
+          "options": {
+            "values": ["fashion", "electronics", "beauty", "food", "home", "other"]
+          }
+        },
+        {
+          "name": "keywords",
+          "type": "json",
+          "required": false
+        },
+        {
+          "name": "language",
+          "type": "select",
+          "required": true,
+          "options": {
+            "values": ["fr", "wo", "en"]
+          }
+        },
+        {
+          "name": "result_count",
+          "type": "number",
+          "required": false,
+          "options": { "min": 0, "default": 0 }
+        }
+      ],
+      "listRule": "@request.auth.id = user_id.user_id",
+      "viewRule": "@request.auth.id = user_id.user_id",
+      "createRule": "@request.auth.id != ''",
+      "updateRule": null,
+      "deleteRule": "@request.auth.id = user_id.user_id"
     }
   ]
 }
