@@ -12,6 +12,9 @@ import { colors } from '../theme'
 import { DiscoveryScreen } from '../screens/customer/DiscoveryScreen'
 import { QRScannerScreen } from '../screens/customer/QRScannerScreen'
 import { ProductDetailScreen } from '../screens/customer/ProductDetailScreen'
+import { CheckoutScreen } from '../screens/customer/CheckoutScreen'
+import { OrdersScreen } from '../screens/customer/OrdersScreen'
+import { OrderDetailScreen } from '../screens/customer/OrderDetailScreen'
 
 // Placeholder screens (Day 3+)
 import { Text, View, StyleSheet } from 'react-native'
@@ -23,14 +26,13 @@ const PlaceholderScreen = ({ title }: { title: string }) => (
   </View>
 )
 
-const OrdersScreen = () => <PlaceholderScreen title="📦 Mes Commandes" />
 const ChatListScreen = () => <PlaceholderScreen title="💬 Messages" />
 const ProfileScreen = () => <PlaceholderScreen title="👤 Profil" />
 
 const Tab = createBottomTabNavigator()
 const Stack = createNativeStackNavigator()
 
-// Discovery Stack Navigator (includes ProductDetail)
+// Discovery Stack Navigator (includes ProductDetail and Checkout)
 const DiscoveryStack = () => (
   <Stack.Navigator>
     <Stack.Screen
@@ -43,10 +45,15 @@ const DiscoveryStack = () => (
       component={ProductDetailScreen}
       options={{ title: 'Détails du produit' }}
     />
+    <Stack.Screen
+      name="Checkout"
+      component={CheckoutScreen}
+      options={{ title: 'Paiement' }}
+    />
   </Stack.Navigator>
 )
 
-// QR Scanner Stack Navigator (includes ProductDetail)
+// QR Scanner Stack Navigator (includes ProductDetail and Checkout)
 const QRStack = () => (
   <Stack.Navigator>
     <Stack.Screen
@@ -58,6 +65,27 @@ const QRStack = () => (
       name="ProductDetail"
       component={ProductDetailScreen}
       options={{ title: 'Détails du produit' }}
+    />
+    <Stack.Screen
+      name="Checkout"
+      component={CheckoutScreen}
+      options={{ title: 'Paiement' }}
+    />
+  </Stack.Navigator>
+)
+
+// Orders Stack Navigator (includes OrderDetail)
+const OrdersStack = () => (
+  <Stack.Navigator>
+    <Stack.Screen
+      name="OrdersList"
+      component={OrdersScreen}
+      options={{ title: 'Mes Commandes' }}
+    />
+    <Stack.Screen
+      name="OrderDetail"
+      component={OrderDetailScreen}
+      options={{ title: 'Détails de la commande' }}
     />
   </Stack.Navigator>
 )
@@ -98,10 +126,11 @@ export const CustomerNavigator = () => {
       />
       <Tab.Screen
         name="Orders"
-        component={OrdersScreen}
+        component={OrdersStack}
         options={{
           title: 'Commandes',
           tabBarIcon: ({ color }) => <Text style={{ fontSize: 24 }}>📦</Text>,
+          headerShown: false,
         }}
       />
       <Tab.Screen

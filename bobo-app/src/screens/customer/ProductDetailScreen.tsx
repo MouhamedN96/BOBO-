@@ -76,21 +76,11 @@ export const ProductDetailScreen = ({ route, navigation }: any) => {
   const handleBuyNow = () => {
     if (!product) return
 
-    // Navigate to checkout (to be implemented in Day 3)
-    Alert.alert(
-      'Acheter maintenant',
-      `${product.title}\n${formatCFA(product.discount_price || product.price)}`,
-      [
-        { text: 'Annuler', style: 'cancel' },
-        {
-          text: 'Continuer',
-          onPress: () => {
-            // TODO: Navigate to checkout
-            Alert.alert('Coming soon', 'Le paiement sera ajouté au Jour 3!')
-          },
-        },
-      ]
-    )
+    // Navigate to checkout with product and default quantity of 1
+    navigation.navigate('Checkout', {
+      product,
+      quantity: 1,
+    })
   }
 
   const handleContactSeller = () => {

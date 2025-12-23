@@ -12,6 +12,8 @@ import { colors } from '../theme'
 import { Text, View, StyleSheet } from 'react-native'
 import { ProductsListScreen } from '../screens/merchant/ProductsListScreen'
 import { AddProductScreen } from '../screens/merchant/AddProductScreen'
+import { OrdersScreen } from '../screens/merchant/OrdersScreen'
+import { OrderDetailScreen } from '../screens/merchant/OrderDetailScreen'
 
 // Placeholder screens
 const PlaceholderScreen = ({ title }: { title: string }) => (
@@ -22,7 +24,6 @@ const PlaceholderScreen = ({ title }: { title: string }) => (
 )
 
 const DashboardScreen = () => <PlaceholderScreen title="📊 Dashboard" />
-const OrdersScreen = () => <PlaceholderScreen title="🛒 Commandes" />
 const ChatListScreen = () => <PlaceholderScreen title="💬 Messages" />
 const ProfileScreen = () => <PlaceholderScreen title="👤 Profil" />
 
@@ -41,6 +42,22 @@ const ProductsStack = () => (
       name="AddProduct"
       component={AddProductScreen}
       options={{ title: 'Ajouter un Produit' }}
+    />
+  </Stack.Navigator>
+)
+
+// Orders Stack Navigator
+const OrdersStack = () => (
+  <Stack.Navigator>
+    <Stack.Screen
+      name="OrdersList"
+      component={OrdersScreen}
+      options={{ title: 'Mes Commandes' }}
+    />
+    <Stack.Screen
+      name="OrderDetail"
+      component={OrderDetailScreen}
+      options={{ title: 'Détails de la commande' }}
     />
   </Stack.Navigator>
 )
@@ -80,10 +97,11 @@ export const MerchantNavigator = () => {
       />
       <Tab.Screen
         name="Orders"
-        component={OrdersScreen}
+        component={OrdersStack}
         options={{
           title: 'Commandes',
           tabBarIcon: ({ color }) => <Text style={{ fontSize: 24 }}>🛒</Text>,
+          headerShown: false,
         }}
       />
       <Tab.Screen
