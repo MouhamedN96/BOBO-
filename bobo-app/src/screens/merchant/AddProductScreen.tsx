@@ -43,6 +43,8 @@ export const AddProductScreen = ({ navigation }: any) => {
     stock_quantity: 1,
   })
   const [imageUri, setImageUri] = useState<string | null>(null)
+  const [videoUri, setVideoUri] = useState<string | null>(null)
+  const [videoDuration, setVideoDuration] = useState<number>(0)
 
   const pickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync()
@@ -61,6 +63,41 @@ export const AddProductScreen = ({ navigation }: any) => {
 
     if (!result.canceled && result.assets[0]) {
       setImageUri(result.assets[0].uri)
+    }
+  }
+
+  const pickVideo = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync()
+
+    if (status !== 'granted') {
+      Alert.alert('Permission requise', 'Nous avons besoin d\'accéder à vos vidéos')
+      return
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Videos,
+      allowsEditing: true,
+      quality: 0.8,
+      videoMaxDuration: 120, // 2 minutes max
+    })
+
+    if (!result.canceled && result.assets[0]) {
+      const asset = result.assets[0]
+
+      // Check file size (50MB max)
+      if (asset.fileSize && asset.fileSize > 50 * 1024 * 1024) {
+        Alert.alert('Erreur', 'La vidéo ne peut pas dépasser 50MB')
+        return
+      }
+
+      // Check duration (2 minutes max)
+      if (asset.duration && asset.duration > 120) {
+        Alert.alert('Erreur', 'La vidéo ne peut pas dépasser 2 minutes')
+        return
+      }
+
+      setVideoUri(asset.uri)
+      setVideoDuration(asset.duration || 0)
     }
   }
 
@@ -87,6 +124,7 @@ export const AddProductScreen = ({ navigation }: any) => {
     const result = await productsService.create(profile.id, {
       ...formData,
       image_uri: imageUri,
+      video_uri: videoUri || undefined,
     })
 
     setIsLoading(false)
@@ -125,6 +163,40 @@ export const AddProductScreen = ({ navigation }: any) => {
             </View>
           )}
         </TouchableOpacity>
+
+        {/* Video Picker (Optional) */}
+        <View style={styles.inputGroup}>
+          <Text style={styles.label}>Vidéo du produit (optionnel)</Text>
+          <Text style={styles.hint}>
+            Max 50MB, 2 minutes - Comme Taobao
+          </Text>
+          <TouchableOpacity
+            style={styles.videoPicker}
+            onPress={pickVideo}
+          >
+            {videoUri ? (
+              <View style={styles.videoSelected}>
+                <Text style={styles.videoIcon}>🎥</Text>
+                <Text style={styles.videoInfo}>
+                  Vidéo sélectionnée ({Math.round(videoDuration)}s)
+                </Text>
+                <TouchableOpacity
+                  onPress={() => setVideoUri(null)}
+                  style={styles.removeVideo}
+                >
+                  <Text style={styles.removeVideoText}>✕</Text>
+                </TouchableOpacity>
+              </View>
+            ) : (
+              <View style={styles.videoPlaceholder}>
+                <Text style={styles.videoIcon}>🎥</Text>
+                <Text style={styles.videoPlaceholderText}>
+                  Ajouter une vidéo de démo
+                </Text>
+              </View>
+            )}
+          </TouchableOpacity>
+        </View>
 
         {/* Title */}
         <View style={styles.inputGroup}>
@@ -335,6 +407,55 @@ const styles = StyleSheet.create({
   submitButtonText: {
     ...typography.button,
     color: colors.clay.white,
+  },
+  hint: {
+    ...typography.micro,
+    color: colors.text.tertiary,
+    marginTop: spacing.xs,
+    marginBottom: spacing.sm,
+  },
+  videoPicker: {
+    width: '100%',
+    borderRadius: 12,
+    overflow: 'hidden',
+  },
+  videoSelected: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.indigo.deep + '20',
+    borderWidth: 2,
+    borderColor: colors.indigo.deep,
+    borderRadius: 12,
+    padding: spacing.md,
+  },
+  videoPlaceholder: {
+    backgroundColor: colors.background.secondary,
+    borderWidth: 2,
+    borderColor: colors.border.light,
+    borderStyle: 'dashed',
+    borderRadius: 12,
+    padding: spacing.lg,
+    alignItems: 'center',
+  },
+  videoIcon: {
+    fontSize: 32,
+    marginRight: spacing.sm,
+  },
+  videoInfo: {
+    ...typography.body,
+    color: colors.indigo.deep,
+    flex: 1,
+  },
+  videoPlaceholderText: {
+    ...typography.body,
+    color: colors.text.secondary,
+  },
+  removeVideo: {
+    padding: spacing.xs,
+  },
+  removeVideoText: {
+    ...typography.h3,
+    color: colors.rust.accent,
   },
   bottomSpacing: {
     height: spacing['3xl'],
