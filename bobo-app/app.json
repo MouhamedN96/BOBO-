@@ -9,7 +9,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#E07856"
+      "backgroundColor": "#2E1065"
     },
     "scheme": "bobo",
     "assetBundlePatterns": [
@@ -30,7 +30,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#E07856"
+        "backgroundColor": "#2E1065"
       },
       "package": "com.bobo.app",
       "permissions": [
@@ -61,7 +61,7 @@
       "splash": {
         "image": "./assets/splash.png",
         "resizeMode": "contain",
-        "backgroundColor": "#E07856"
+        "backgroundColor": "#2E1065"
       }
     },
     "plugins": [

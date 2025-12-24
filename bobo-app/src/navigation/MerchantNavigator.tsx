@@ -14,6 +14,7 @@ import { ProductsListScreen } from '../screens/merchant/ProductsListScreen'
 import { AddProductScreen } from '../screens/merchant/AddProductScreen'
 import { OrdersScreen } from '../screens/merchant/OrdersScreen'
 import { OrderDetailScreen } from '../screens/merchant/OrderDetailScreen'
+import { DashboardScreen } from '../screens/merchant/DashboardScreen'
 
 // Placeholder screens
 const PlaceholderScreen = ({ title }: { title: string }) => (
@@ -23,7 +24,6 @@ const PlaceholderScreen = ({ title }: { title: string }) => (
   </View>
 )
 
-const DashboardScreen = () => <PlaceholderScreen title="📊 Dashboard" />
 const ChatListScreen = () => <PlaceholderScreen title="💬 Messages" />
 const ProfileScreen = () => <PlaceholderScreen title="👤 Profil" />
 

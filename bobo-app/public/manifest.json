@@ -4,8 +4,8 @@
   "description": "Commerce intelligent avec AI au Sénégal. Recherche vocale, visuelle et QR codes.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#F2A541",
-  "theme_color": "#E07856",
+  "background_color": "#FDFBF7",
+  "theme_color": "#2E1065",
   "orientation": "portrait",
   "icons": [
     {

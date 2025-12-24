@@ -1,38 +1,35 @@
-# Backend Beta & Testing Plan
+# BOBO Master Roadmap
 
 ## 🎯 Objective
-Achieve a **complete, stable backend beta** ("green" status) before transitioning to UI development. This involves fixing the remaining brittle tests, ensuring robust error handling, and verifying core user flows.
+Build a "Classy Afro-Tech" cross-platform marketplace (React Native + PWA) delivering a premium experience for African Live Commerce.
 
-## 🔴 Current Status (As of Dec 23, 2025)
-- **AI Service:** ✅ **STABLE** (100% Passing, ESM issues fixed, Logic verified)
-- **Products Service:** ✅ **PASSING** (But noisy logs)
-- **Auth Store:** ✅ **PASSING**
-- **Auth Service:** ❌ **FAILING** (17 failures, brittle mocks, validation mismatches)
+## ✅ Completed Milestones
+- **Core Architecture:** Expo SDK 54, React Native 0.76, PocketBase Backend.
+- **Design System:** "Classy Afro-Tech" (Midnight Indigo & Lagos Gold) fully implemented.
+- **Stability:** 100% Type Safety (Zero `tsc` errors), 100% Test Pass Rate (136 tests).
+- **Core Flows:** Authentication, Product Discovery, Checkout, Order Management (Customer & Merchant).
 
-## 📋 To-Do List
+## 📋 Phase 2: PWA & Advanced Features (Current)
 
-### Phase 1: Fix the Foundation (Immediate Priority)
-- [ ] **Fix `auth.service.test.ts`**
-    - [ ] Resolve `TypeError: Cannot read properties of undefined` (Mock call inspection failures).
-    - [ ] Fix validation mismatches (e.g., receiving "Invalid email" when expecting "mot de passe" error).
-    - [ ] Update mocks to correctly simulate PocketBase responses for all scenarios.
-- [ ] **Clean Up Test Output**
-    - [ ] Suppress `console.error` during successful error-handling tests to make the "Linus" report clean.
+### 1. PWA Optimization 🌐
+- [ ] **Service Worker:** Implement offline caching using Workbox.
+- [ ] **Manifest & Icons:** Ensure full PWA installability compliance.
+- [ ] **Web Performance:** Analyze bundle size and optimize for mobile web.
+- [ ] **Responsive Layout:** Verify "Classy Afro-Tech" on desktop/tablet views.
 
-### Phase 2: Backend Beta Verification ("Linus Mode")
-- [ ] **Strict Linting & Type Checking**
-    - [ ] Run full project type check (tsc).
-    - [ ] Audit for any remaining `any` types or `@ts-ignore`.
-- [ ] **Integration Scenarios (Backtesting)**
-    - [ ] Verify complete flow: `SignUp` -> `Login` -> `Profile Update` in a unified test.
-    - [ ] Verify `Search` -> `Filter` -> `Product Details` flow.
+### 2. Merchant Dashboard 📊
+- [ ] **Real Dashboard:** Replace `PlaceholderScreen` in `MerchantNavigator`.
+- [ ] **Analytics UI:** Implement sales charts (Revenue, Orders).
+- [ ] **Quick Actions:** One-tap access to "Add Product", "Scan QR", "Pending Orders".
 
-### Phase 3: Transition to UI (Nano Banana)
-- [ ] **Handover Point:** Once Phase 1 & 2 are complete, the backend is certified "Beta Ready".
-- [ ] **UI Integration:** User/Nano Banana takes over for Design/UI implementation.
-- [ ] **Expo/iOS Testing:** User performs final visual checks on iOS Simulator.
+### 3. Realtime Chat System 💬
+- [ ] **Chat Service:** Build on PocketBase realtime subscriptions.
+- [ ] **UI:** `ChatListScreen` and `ChatDetailScreen` with "Classy" theming.
+- [ ] **Integration:** Link from `OrderDetailScreen` and `ProductDetailScreen`.
+
+### 4. Live Commerce (Future) 🎥
+- [ ] **Live Streaming:** Integration with mux or similar low-latency provider.
+- [ ] **Live Product Pinning:** Admin tools for live selling.
 
 ## 🛠️ Execution Log
-- **2025-12-23:** Fixed ESM import errors in `jest.config.js`.
-- **2025-12-23:** Refactored `ai.service.ts` to fix false positive category detection ("moderne" != "fashion").
-- **2025-12-23:** `ai.service.test.ts` achieved 100% pass rate.
+- **2025-12-23:** Migrated to Expo 54. Fixed all 226 type errors. Refactored UI to new Design System. All tests passed.
