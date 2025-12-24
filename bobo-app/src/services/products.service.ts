@@ -30,7 +30,7 @@ export class ProductsService {
       })
 
       return {
-        items: result.items as Product[],
+        items: result.items as unknown as Product[],
         totalItems: result.totalItems,
         totalPages: result.totalPages,
       }
@@ -51,7 +51,7 @@ export class ProductsService {
       })
 
       return {
-        items: result.items as Product[],
+        items: result.items as unknown as Product[],
         totalItems: result.totalItems,
         totalPages: result.totalPages,
       }
@@ -70,7 +70,7 @@ export class ProductsService {
         expand: 'seller_id',
       })
 
-      return product as Product
+      return product as unknown as Product
     } catch (error) {
       console.error('Get product error:', error)
       return null
@@ -89,7 +89,7 @@ export class ProductsService {
       })
 
       return {
-        items: result.items as Product[],
+        items: result.items as unknown as Product[],
         totalItems: result.totalItems,
         totalPages: result.totalPages,
       }
@@ -173,7 +173,7 @@ export class ProductsService {
 
       return {
         success: true,
-        product: product as Product,
+        product: product as unknown as Product,
       }
     } catch (error: any) {
       console.error('Create product error:', error)
@@ -255,7 +255,7 @@ export class ProductsService {
 
       return {
         success: true,
-        product: product as Product,
+        product: product as unknown as Product,
       }
     } catch (error) {
       console.error('Update product error:', error)

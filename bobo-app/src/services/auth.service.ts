@@ -73,7 +73,7 @@ export class AuthService {
       return {
         success: true,
         user,
-        profile,
+        profile: profile as unknown as Profile,
       }
     } catch (error: any) {
       console.error('Signup error:', error)
@@ -132,7 +132,7 @@ export class AuthService {
       return {
         success: true,
         user: authData.record,
-        profile,
+        profile: profile as unknown as Profile,
       }
     } catch (error: any) {
       console.error('Sign in error:', error)
@@ -193,7 +193,7 @@ export class AuthService {
         .collection('profiles')
         .getFirstListItem(`user_id="${targetUserId}"`)
 
-      return profile as Profile
+      return profile as unknown as Profile
     } catch (error) {
       console.error('Get profile error:', error)
       return null
@@ -232,7 +232,7 @@ export class AuthService {
 
       return {
         success: true,
-        profile: profile as Profile,
+        profile: profile as unknown as Profile,
       }
     } catch (error: any) {
       console.error('Update profile error:', error)
@@ -271,7 +271,7 @@ export class AuthService {
 
       return {
         success: true,
-        profile: profile as Profile,
+        profile: profile as unknown as Profile,
       }
     } catch (error) {
       console.error('Update avatar error:', error)

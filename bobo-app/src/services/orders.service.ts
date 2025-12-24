@@ -96,7 +96,7 @@ export class OrdersService {
 
       return {
         success: true,
-        order: order as Order,
+        order: order as unknown as Order,
       }
     } catch (error: any) {
       console.error('Create order error:', error)
@@ -140,7 +140,7 @@ export class OrdersService {
       })
 
       return {
-        items: result.items as Order[],
+        items: result.items as unknown as Order[],
         totalItems: result.totalItems,
         totalPages: result.totalPages,
       }
@@ -162,7 +162,7 @@ export class OrdersService {
       })
 
       return {
-        items: result.items as Order[],
+        items: result.items as unknown as Order[],
         totalItems: result.totalItems,
         totalPages: result.totalPages,
       }
@@ -181,7 +181,7 @@ export class OrdersService {
         expand: 'buyer_id,seller_id,product_id',
       })
 
-      return order as Order
+      return order as unknown as Order
     } catch (error) {
       console.error('Get order error:', error)
       return null
@@ -221,7 +221,7 @@ export class OrdersService {
 
       return {
         success: true,
-        order: order as Order,
+        order: order as unknown as Order,
       }
     } catch (error: any) {
       console.error('Update order status error:', error)
@@ -251,7 +251,7 @@ export class OrdersService {
 
       return {
         success: true,
-        order: order as Order,
+        order: order as unknown as Order,
       }
     } catch (error: any) {
       console.error('Update payment reference error:', error)
@@ -280,7 +280,7 @@ export class OrdersService {
 
       return {
         success: true,
-        order: order as Order,
+        order: order as unknown as Order,
       }
     } catch (error: any) {
       console.error('Add tracking number error:', error)
@@ -306,7 +306,7 @@ export class OrdersService {
 
       return {
         success: true,
-        order: order as Order,
+        order: order as unknown as Order,
       }
     } catch (error: any) {
       console.error('Cancel order error:', error)
@@ -331,7 +331,7 @@ export class OrdersService {
         filter: `seller_id = "${sellerId}"`,
       })
 
-      const orders = result as Order[]
+      const orders = result as unknown as Order[]
 
       const totalRevenue = orders.reduce((sum, order) => sum + order.total_price, 0)
       const pendingOrders = orders.filter((o) => o.status === 'pending_payment').length
