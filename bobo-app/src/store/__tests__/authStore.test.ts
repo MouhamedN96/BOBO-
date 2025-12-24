@@ -61,7 +61,7 @@ describe('useAuthStore', () => {
         return Promise.resolve({
           success: true,
           user: { id: 'user123' },
-          profile: { id: 'profile123' },
+          profile: { id: 'profile123' } as any,
         })
       })
 
@@ -185,7 +185,7 @@ describe('useAuthStore', () => {
       ;(authService.signIn as jest.Mock).mockResolvedValue({
         success: true,
         user: { id: 'user123' },
-        profile: { id: 'profile123' },
+        profile: { id: 'profile123' } as any,
       })
 
       await useAuthStore.getState().signIn({
@@ -202,7 +202,7 @@ describe('useAuthStore', () => {
     it('should clear auth state on logout', async () => {
       useAuthStore.setState({
         user: { id: 'user123' },
-        profile: { id: 'profile123' },
+        profile: { id: 'profile123' } as any,
         isAuthenticated: true,
       })
 
@@ -233,7 +233,7 @@ describe('useAuthStore', () => {
       const mockUpdatedProfile = { id: 'profile123', username: 'newusername' }
 
       useAuthStore.setState({
-        profile: { id: 'profile123', username: 'oldusername' },
+        profile: { id: 'profile123', username: 'oldusername' } as any,
       })
 
       ;(authService.updateProfile as jest.Mock).mockResolvedValue({
@@ -259,7 +259,7 @@ describe('useAuthStore', () => {
     })
 
     it('should set error on failed profile update', async () => {
-      useAuthStore.setState({ profile: { id: 'profile123' } })
+      useAuthStore.setState({ profile: { id: 'profile123' } as any })
 
       ;(authService.updateProfile as jest.Mock).mockResolvedValue({
         success: false,
@@ -283,7 +283,7 @@ describe('useAuthStore', () => {
         avatar_url: 'new-avatar.jpg',
       }
 
-      useAuthStore.setState({ profile: { id: 'profile123' } })
+      useAuthStore.setState({ profile: { id: 'profile123' } as any })
 
       ;(authService.updateAvatar as jest.Mock).mockResolvedValue({
         success: true,
@@ -304,7 +304,7 @@ describe('useAuthStore', () => {
     })
 
     it('should handle avatar upload errors', async () => {
-      useAuthStore.setState({ profile: { id: 'profile123' } })
+      useAuthStore.setState({ profile: { id: 'profile123' } as any })
 
       ;(authService.updateAvatar as jest.Mock).mockResolvedValue({
         success: false,
@@ -342,7 +342,7 @@ describe('useAuthStore', () => {
 
     it('should not update if no user exists', async () => {
       const originalProfile = { id: 'profile123' }
-      useAuthStore.setState({ profile: originalProfile, user: null })
+      useAuthStore.setState({ profile: originalProfile as any, user: null })
 
       await useAuthStore.getState().refreshProfile()
 

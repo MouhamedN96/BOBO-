@@ -29,7 +29,7 @@ const { width: SCREEN_WIDTH } = Dimensions.get('window')
 export const ProductDetailScreen = ({ route, navigation }: any) => {
   const { productId } = route.params
   const { profile } = useAuthStore()
-  const videoRef = useRef<Video>(null)
+  const videoRef = useRef<any>(null)
 
   const [product, setProduct] = useState<Product | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -49,7 +49,7 @@ export const ProductDetailScreen = ({ route, navigation }: any) => {
         expand: 'seller_id',
       })
 
-      setProduct(fetchedProduct as Product)
+      setProduct(fetchedProduct as unknown as Product)
       setUpvoteCount(fetchedProduct.upvotes || 0)
 
       // Check if user has upvoted (simplified - would use a upvotes junction table in production)
@@ -67,7 +67,7 @@ export const ProductDetailScreen = ({ route, navigation }: any) => {
 
     const result = await productsService.toggleUpvote(product.id, profile.id)
 
-    if (result.success) {
+    if (result) {
       setIsUpvoted(!isUpvoted)
       setUpvoteCount(isUpvoted ? upvoteCount - 1 : upvoteCount + 1)
     }
@@ -103,7 +103,7 @@ export const ProductDetailScreen = ({ route, navigation }: any) => {
     )
   }
 
-  const handleVideoPlayback = (status: AVPlaybackStatus) => {
+  const handleVideoPlayback = (status: any) => {
     if (status.isLoaded) {
       setIsPlaying(status.isPlaying)
     }

@@ -247,7 +247,7 @@ export const multiRemove = async (keys: string[]): Promise<void> => {
 }
 
 // Export storage adapter for custom usage
-export { LocalStorageAdapter, InMemoryStorage, type StorageAdapter }
+export { LocalStorageAdapter, InMemoryStorage }
 
 export default {
   getItem,

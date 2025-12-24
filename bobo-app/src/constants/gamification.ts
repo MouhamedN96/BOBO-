@@ -135,6 +135,8 @@ export const getLevelFromXP = (xp: number): Level => {
   )
 }
 
+export const calculateLevel = getLevelFromXP
+
 // Helper function to calculate progress to next level
 export const getProgressToNextLevel = (xp: number): {
   current: Level

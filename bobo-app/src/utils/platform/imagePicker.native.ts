@@ -39,10 +39,10 @@ export const pickImage = async (options: {
   const asset = result.assets[0]
   return {
     uri: asset.uri,
-    base64: asset.base64,
+    base64: asset.base64 ?? undefined,
     width: asset.width,
     height: asset.height,
-    fileSize: asset.fileSize,
+    fileSize: asset.fileSize ?? undefined,
   }
 }
 
@@ -72,8 +72,8 @@ export const pickVideo = async (options: {
     uri: asset.uri,
     width: asset.width,
     height: asset.height,
-    fileSize: asset.fileSize,
-    duration: asset.duration,
+    fileSize: asset.fileSize ?? undefined,
+    duration: asset.duration ?? undefined,
   }
 }
 
@@ -101,9 +101,9 @@ export const takePhoto = async (options: {
   const asset = result.assets[0]
   return {
     uri: asset.uri,
-    base64: asset.base64,
+    base64: asset.base64 ?? undefined,
     width: asset.width,
     height: asset.height,
-    fileSize: asset.fileSize,
+    fileSize: asset.fileSize ?? undefined,
   }
 }

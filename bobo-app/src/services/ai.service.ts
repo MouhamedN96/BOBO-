@@ -223,7 +223,7 @@ export class NLPEngine {
 // ============================================================================
 
 export class VoiceSearch {
-  private static recording: Audio.Recording | null = null
+  private static recording: any | null = null
 
   /**
    * Start voice recording for search

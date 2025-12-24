@@ -53,7 +53,7 @@ export const createQRScanner = (
   containerId: string,
   props: QRScannerProps
 ): QRScannerInstance => {
-  let scanner: Html5QrcodeScanner | null = null
+  let scanner: any | null = null
   let isScanning = false
 
   // Ensure container exists
@@ -63,7 +63,7 @@ export const createQRScanner = (
   }
 
   // Initialize scanner
-  scanner = new Html5QrcodeScanner(
+  scanner = new (Html5QrcodeScanner as any)(
     containerId,
     {
       fps: 10,
@@ -81,7 +81,7 @@ export const createQRScanner = (
         width: { ideal: 1280 },
         height: { ideal: 720 },
       },
-    } as Html5QrcodeCameraScanConfig,
+    } as any,
     false
   )
 
@@ -94,7 +94,7 @@ export const createQRScanner = (
 
       try {
         await scanner.render(
-          (decodedText) => {
+          (decodedText: any) => {
             // Parse and validate deep link
             const deepLink = parseDeepLink(decodedText)
 
@@ -104,7 +104,7 @@ export const createQRScanner = (
               props.onError(`Invalid QR code format: ${decodedText}`)
             }
           },
-          (error) => {
+          (error: any) => {
             // Log but don't throw - continuous scanning produces many errors
             console.debug(`QR Code scan error: ${error}`)
           }
