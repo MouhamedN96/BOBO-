@@ -241,7 +241,7 @@ export const OrdersScreen = ({ navigation }: any) => {
       {/* Orders List */}
       {isLoading ? (
         <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color={colors.terracotta.primary} />
+          <ActivityIndicator size="large" color={colors.primary} />
         </View>
       ) : (
         <FlatList
@@ -254,7 +254,7 @@ export const OrdersScreen = ({ navigation }: any) => {
             <RefreshControl
               refreshing={refreshing}
               onRefresh={onRefresh}
-              tintColor={colors.terracotta.primary}
+              tintColor={colors.primary}
             />
           }
         />
@@ -266,12 +266,12 @@ export const OrdersScreen = ({ navigation }: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background.primary,
+    backgroundColor: colors.background.main,
   },
   filterContainer: {
     borderBottomWidth: 1,
     borderBottomColor: colors.border.light,
-    backgroundColor: colors.background.secondary,
+    backgroundColor: colors.background.surface,
   },
   filterContent: {
     paddingHorizontal: spacing.base,
@@ -284,13 +284,13 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.sm,
     marginRight: spacing.md,
     borderRadius: 20,
-    backgroundColor: colors.background.primary,
+    backgroundColor: colors.background.main,
     borderWidth: 1,
     borderColor: colors.border.light,
   },
   filterTabActive: {
-    backgroundColor: colors.terracotta.primary,
-    borderColor: colors.terracotta.primary,
+    backgroundColor: colors.primary,
+    borderColor: colors.primary,
   },
   filterIcon: {
     fontSize: 16,
@@ -301,13 +301,13 @@ const styles = StyleSheet.create({
     color: colors.text.primary,
   },
   filterLabelActive: {
-    color: colors.clay.white,
+    color: colors.text.inverse,
   },
   listContent: {
     padding: spacing.base,
   },
   orderCard: {
-    backgroundColor: colors.background.primary,
+    backgroundColor: colors.background.surface,
     borderRadius: 12,
     padding: spacing.base,
     marginBottom: spacing.base,
@@ -322,7 +322,7 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 8,
-    backgroundColor: colors.background.secondary,
+    backgroundColor: colors.background.subtle,
     marginRight: spacing.md,
   },
   orderInfo: {
@@ -345,7 +345,7 @@ const styles = StyleSheet.create({
   },
   price: {
     ...typography.price,
-    color: colors.terracotta.primary,
+    color: colors.primary,
   },
   quantity: {
     ...typography.caption,
@@ -374,7 +374,7 @@ const styles = StyleSheet.create({
   },
   progressFill: {
     height: '100%',
-    backgroundColor: colors.terracotta.primary,
+    backgroundColor: colors.primary,
   },
   progressLabel: {
     ...typography.micro,
@@ -390,13 +390,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.md,
     borderRadius: 6,
     borderWidth: 1,
-    borderColor: colors.rust.accent,
-    backgroundColor: colors.rust.accent + '10',
+    borderColor: colors.error,
+    backgroundColor: colors.error + '10',
     alignItems: 'center',
   },
   cancelButtonText: {
     ...typography.micro,
-    color: colors.rust.accent,
+    color: colors.error,
     fontWeight: '700',
   },
   loadingContainer: {
@@ -425,3 +425,4 @@ const styles = StyleSheet.create({
     maxWidth: 280,
   },
 })
+

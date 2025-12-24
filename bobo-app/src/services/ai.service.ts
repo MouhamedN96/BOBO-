@@ -77,6 +77,15 @@ export class NLPEngine {
   }
 
   static parseQuery(rawQuery: string): SearchIntent {
+    if (!rawQuery || typeof rawQuery !== 'string') {
+      return {
+        query: '',
+        keywords: [],
+        isQuestion: false,
+        language: 'fr',
+      }
+    }
+
     const query = rawQuery.toLowerCase().trim()
     const intent: SearchIntent = {
       query: rawQuery,
@@ -88,7 +97,10 @@ export class NLPEngine {
     // Translate Wolof terms to French for better search
     let normalizedQuery = query
     Object.entries(this.WOLOF_TRANSLATIONS).forEach(([wolof, french]) => {
-      normalizedQuery = normalizedQuery.replace(new RegExp(wolof, 'gi'), french)
+      // Use custom word boundary that includes accented characters
+      // Capture the preceding character to preserve it
+      const regex = new RegExp(`(^|[^a-zA-Z0-9À-ÿ])${wolof}(?=[^a-zA-Z0-9À-ÿ]|$)`, 'gi')
+      normalizedQuery = normalizedQuery.replace(regex, `$1${french}`)
     })
 
     // Extract price constraints
@@ -142,11 +154,16 @@ export class NLPEngine {
 
   private static detectLanguage(query: string): 'fr' | 'wo' | 'en' {
     const wolofWords = ['waxoon', 'rafet', 'baax', 'lekk', 'kër', 'yéré', 'na', 'nga']
-    const hasWolof = wolofWords.some((word) => query.includes(word))
+    // Use word boundary check
+    const hasWolof = wolofWords.some((word) => 
+      new RegExp(`(^|[^a-zA-Z0-9À-ÿ])${word}(?=[^a-zA-Z0-9À-ÿ]|$)`, 'i').test(query)
+    )
     if (hasWolof) return 'wo'
 
     const englishWords = ['phone', 'beautiful', 'cheap', 'want', 'need', 'good']
-    const hasEnglish = englishWords.some((word) => query.includes(word))
+    const hasEnglish = englishWords.some((word) => 
+      new RegExp(`(^|[^a-zA-Z0-9À-ÿ])${word}(?=[^a-zA-Z0-9À-ÿ]|$)`, 'i').test(query)
+    )
     if (hasEnglish) return 'en'
 
     return 'fr' // Default to French
@@ -191,7 +208,9 @@ export class NLPEngine {
 
   private static detectCategory(query: string): string | undefined {
     for (const [category, keywords] of Object.entries(this.CATEGORY_KEYWORDS)) {
-      if (keywords.some((keyword) => query.includes(keyword))) {
+      if (keywords.some((keyword) => 
+        new RegExp(`(^|[^a-zA-Z0-9À-ÿ])${keyword}(?=[^a-zA-Z0-9À-ÿ]|$)`, 'i').test(query)
+      )) {
         return category
       }
     }

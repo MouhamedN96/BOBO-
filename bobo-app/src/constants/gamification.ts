@@ -53,7 +53,7 @@ export const boboLevels: Level[] = [
     max: 100,
     title: 'Newcomer',
     emoji: '🌱',
-    color: colors.forest.green,
+    color: colors.success,
     benefits: [
       'Accès au marketplace',
       'Scanner QR codes',
@@ -65,7 +65,7 @@ export const boboLevels: Level[] = [
     max: 500,
     title: 'Shopper',
     emoji: '🛍️',
-    color: colors.terracotta.primary,
+    color: colors.primary,
     benefits: [
       'Tous les avantages Newcomer',
       'Sauvegarder des produits',
@@ -78,7 +78,7 @@ export const boboLevels: Level[] = [
     max: 1500,
     title: 'Seller',
     emoji: '🏪',
-    color: colors.savanna.gold,
+    color: colors.secondary,
     benefits: [
       'Tous les avantages Shopper',
       'Vendre des produits',
@@ -91,7 +91,7 @@ export const boboLevels: Level[] = [
     max: 5000,
     title: 'Merchant',
     emoji: '💼',
-    color: colors.indigo.deep,
+    color: colors.primary,
     benefits: [
       'Tous les avantages Seller',
       'Produits en vedette',
@@ -104,7 +104,7 @@ export const boboLevels: Level[] = [
     max: 15000,
     title: 'Mogul',
     emoji: '👑',
-    color: colors.savanna.gold,
+    color: colors.secondary,
     benefits: [
       'Tous les avantages Merchant',
       'Badge "Vérifié"',
@@ -117,7 +117,7 @@ export const boboLevels: Level[] = [
     max: 999999,
     title: 'Market Leader',
     emoji: '🦁',
-    color: colors.terracotta.primary,
+    color: colors.primary,
     benefits: [
       'Tous les avantages Mogul',
       'Badge "Market Leader"',

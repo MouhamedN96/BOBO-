@@ -120,7 +120,7 @@ export const OrderDetailScreen = ({ route, navigation }: any) => {
   if (isLoading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color={colors.terracotta.primary} />
+        <ActivityIndicator size="large" color={colors.primary} />
       </View>
     )
   }
@@ -366,7 +366,7 @@ const TimelineItem = ({ status, label, timestamp, isActive }: TimelineItemProps)
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background.primary,
+    backgroundColor: colors.background.main,
   },
   loadingContainer: {
     flex: 1,
@@ -385,7 +385,7 @@ const styles = StyleSheet.create({
   statusCard: {
     padding: spacing.base,
     paddingVertical: spacing.lg,
-    backgroundColor: colors.background.secondary,
+    backgroundColor: colors.background.surface,
     borderBottomWidth: 1,
     borderBottomColor: colors.border.light,
     alignItems: 'center',
@@ -438,16 +438,16 @@ const styles = StyleSheet.create({
   callButton: {
     paddingVertical: spacing.md,
     paddingHorizontal: spacing.base,
-    backgroundColor: colors.terracotta.primary + '20',
+    backgroundColor: colors.primary + '20',
     borderWidth: 1,
-    borderColor: colors.terracotta.primary,
+    borderColor: colors.primary,
     borderRadius: 8,
     alignItems: 'center',
     marginTop: spacing.sm,
   },
   callButtonText: {
     ...typography.captionBold,
-    color: colors.terracotta.primary,
+    color: colors.primary,
   },
   productRow: {
     paddingBottom: spacing.md,
@@ -474,7 +474,6 @@ const styles = StyleSheet.create({
   totalRow: {
     borderTopWidth: 1,
     borderTopColor: colors.border.light,
-    paddingTopVertical: spacing.md,
     paddingTop: spacing.md,
   },
   totalLabel: {
@@ -484,7 +483,7 @@ const styles = StyleSheet.create({
   },
   totalValue: {
     ...typography.priceLarge,
-    color: colors.terracotta.primary,
+    color: colors.primary,
   },
   trackingNumber: {
     fontFamily: 'monospace',
@@ -525,20 +524,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   shipButton: {
-    backgroundColor: colors.indigo.deep,
+    backgroundColor: colors.primary,
   },
   shipButtonText: {
     ...typography.captionBold,
-    color: colors.clay.white,
+    color: colors.text.inverse,
   },
   deliverButton: {
-    backgroundColor: colors.forest.green,
+    backgroundColor: colors.success,
   },
   deliverButtonText: {
     ...typography.captionBold,
-    color: colors.clay.white,
+    color: colors.text.inverse,
   },
   spacer: {
     height: spacing.base,
   },
 })
+

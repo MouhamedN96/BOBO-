@@ -12,10 +12,27 @@ import {
   validatePhoneNumber,
 } from '../../utils/validation'
 
+// Define stable mocks (must start with 'mock' to be used in jest.mock factory)
+let mockUsers = {
+  create: jest.fn(),
+  authWithPassword: jest.fn(),
+  requestPasswordReset: jest.fn(),
+}
+
+let mockProfiles = {
+  create: jest.fn(),
+  update: jest.fn(),
+  getFirstListItem: jest.fn(),
+}
+
 // Mock PocketBase
 jest.mock('../../lib/pocketbase', () => ({
   pb: {
-    collection: jest.fn(),
+    collection: jest.fn((name) => {
+      if (name === 'users') return mockUsers
+      if (name === 'profiles') return mockProfiles
+      return {}
+    }),
     authStore: {
       clear: jest.fn(),
       isValid: false,
@@ -41,6 +58,40 @@ describe('AuthService', () => {
     jest.clearAllMocks()
     service = new AuthService()
     mockCollection = pb.collection as jest.Mock
+
+    // Reset validation mocks to success by default
+    ;(validateEmail as jest.Mock).mockReturnValue({ valid: true })
+    ;(validatePassword as jest.Mock).mockReturnValue({ valid: true })
+    ;(validateUsername as jest.Mock).mockReturnValue({ valid: true })
+    ;(validatePhoneNumber as jest.Mock).mockReturnValue({ valid: true })
+
+    // Silence console.error
+    jest.spyOn(console, 'error').mockImplementation(() => {})
+
+    // Initialize stable mocks
+    mockUsers = {
+      create: jest.fn(),
+      authWithPassword: jest.fn(),
+      requestPasswordReset: jest.fn(),
+    }
+
+    mockProfiles = {
+      create: jest.fn(),
+      update: jest.fn(),
+      getFirstListItem: jest.fn(),
+    }
+
+    // Default mock implementation returns the stable mocks
+    mockCollection.mockImplementation((collection) => {
+      if (collection === 'users') return mockUsers
+      if (collection === 'profiles') return mockProfiles
+      return {}
+    })
+  })
+
+  afterEach(() => {
+    // Restore console.error
+    ;(console.error as jest.Mock).mockRestore?.()
   })
 
   describe('signUp', () => {
@@ -60,19 +111,9 @@ describe('AuthService', () => {
         xp: 0,
       }
 
-      mockCollection.mockImplementation((collection) => {
-        if (collection === 'users') {
-          return {
-            create: jest.fn().mockResolvedValue(mockUser),
-            authWithPassword: jest.fn().mockResolvedValue({ record: mockUser }),
-          }
-        }
-        if (collection === 'profiles') {
-          return {
-            create: jest.fn().mockResolvedValue(mockProfile),
-          }
-        }
-      })
+      mockUsers.create.mockResolvedValue(mockUser)
+      mockUsers.authWithPassword.mockResolvedValue({ record: mockUser })
+      mockProfiles.create.mockResolvedValue(mockProfile)
 
       const result = await service.signUp({
         email: 'test@example.com',
@@ -122,7 +163,7 @@ describe('AuthService', () => {
       })
 
       expect(result.success).toBe(false)
-      expect(result.error).toContain('mot de passe')
+      expect(result.error).toContain('Password')
     })
 
     it('should validate password complexity', async () => {
@@ -174,26 +215,16 @@ describe('AuthService', () => {
       })
 
       expect(result.success).toBe(false)
-      expect(result.error).toContain('nom')
+      expect(result.error).toContain('Username')
     })
 
     it('should auto-login after signup', async () => {
       const mockUser = { id: 'user123', email: 'test@example.com' }
       const mockProfile = { id: 'profile123', username: 'testuser' }
 
-      mockCollection.mockImplementation((collection) => {
-        if (collection === 'users') {
-          return {
-            create: jest.fn().mockResolvedValue(mockUser),
-            authWithPassword: jest.fn().mockResolvedValue({ record: mockUser }),
-          }
-        }
-        if (collection === 'profiles') {
-          return {
-            create: jest.fn().mockResolvedValue(mockProfile),
-          }
-        }
-      })
+      mockUsers.create.mockResolvedValue(mockUser)
+      mockUsers.authWithPassword.mockResolvedValue({ record: mockUser })
+      mockProfiles.create.mockResolvedValue(mockProfile)
 
       await service.signUp({
         email: 'test@example.com',
@@ -203,7 +234,7 @@ describe('AuthService', () => {
         isMerchant: false,
       })
 
-      expect(mockCollection('users').authWithPassword).toHaveBeenCalledWith(
+      expect(mockUsers.authWithPassword).toHaveBeenCalledWith(
         'test@example.com',
         'TestPassword123!'
       )
@@ -212,19 +243,9 @@ describe('AuthService', () => {
     it('should create profile with merchant flag', async () => {
       const mockUser = { id: 'user123', email: 'test@example.com' }
 
-      mockCollection.mockImplementation((collection) => {
-        if (collection === 'users') {
-          return {
-            create: jest.fn().mockResolvedValue(mockUser),
-            authWithPassword: jest.fn().mockResolvedValue({ record: mockUser }),
-          }
-        }
-        if (collection === 'profiles') {
-          return {
-            create: jest.fn().mockResolvedValue({}),
-          }
-        }
-      })
+      mockUsers.create.mockResolvedValue(mockUser)
+      mockUsers.authWithPassword.mockResolvedValue({ record: mockUser })
+      mockProfiles.create.mockResolvedValue({})
 
       await service.signUp({
         email: 'test@example.com',
@@ -234,19 +255,13 @@ describe('AuthService', () => {
         isMerchant: true,
       })
 
-      const createCall = mockCollection('profiles').create.mock.calls[0][0]
+      const createCall = mockProfiles.create.mock.calls[0][0]
       expect(createCall.is_merchant).toBe(true)
     })
 
     it('should handle duplicate email error', async () => {
-      mockCollection.mockImplementation((collection) => {
-        if (collection === 'users') {
-          return {
-            create: jest.fn().mockRejectedValue({
-              data: { data: { email: 'Email already taken' } },
-            }),
-          }
-        }
+      mockUsers.create.mockRejectedValue({
+        data: { data: { email: 'Email already taken' } },
       })
 
       const result = await service.signUp({
@@ -264,19 +279,9 @@ describe('AuthService', () => {
     it('should lowercase email for consistency', async () => {
       const mockUser = { id: 'user123' }
 
-      mockCollection.mockImplementation((collection) => {
-        if (collection === 'users') {
-          return {
-            create: jest.fn().mockResolvedValue(mockUser),
-            authWithPassword: jest.fn().mockResolvedValue({ record: mockUser }),
-          }
-        }
-        if (collection === 'profiles') {
-          return {
-            create: jest.fn().mockResolvedValue({}),
-          }
-        }
-      })
+      mockUsers.create.mockResolvedValue(mockUser)
+      mockUsers.authWithPassword.mockResolvedValue({ record: mockUser })
+      mockProfiles.create.mockResolvedValue({})
 
       await service.signUp({
         email: 'Test@EXAMPLE.COM',
@@ -286,7 +291,7 @@ describe('AuthService', () => {
         isMerchant: false,
       })
 
-      const createCall = mockCollection('users').create.mock.calls[0][0]
+      const createCall = mockUsers.create.mock.calls[0][0]
       expect(createCall.email).toBe('test@example.com')
     })
   })
@@ -296,21 +301,9 @@ describe('AuthService', () => {
       const mockUser = { id: 'user123', email: 'test@example.com' }
       const mockProfile = { id: 'profile123', username: 'testuser' }
 
-      mockCollection.mockImplementation((collection) => {
-        if (collection === 'users') {
-          return {
-            authWithPassword: jest
-              .fn()
-              .mockResolvedValue({ record: mockUser }),
-          }
-        }
-        if (collection === 'profiles') {
-          return {
-            getFirstListItem: jest.fn().mockResolvedValue(mockProfile),
-            update: jest.fn().mockResolvedValue(mockProfile),
-          }
-        }
-      })
+      mockUsers.authWithPassword.mockResolvedValue({ record: mockUser })
+      mockProfiles.getFirstListItem.mockResolvedValue(mockProfile)
+      mockProfiles.update.mockResolvedValue(mockProfile)
 
       const result = await service.signIn({
         email: 'test@example.com',
@@ -348,13 +341,7 @@ describe('AuthService', () => {
     })
 
     it('should handle invalid credentials', async () => {
-      mockCollection.mockImplementation((collection) => {
-        if (collection === 'users') {
-          return {
-            authWithPassword: jest.fn().mockRejectedValue({ status: 400 }),
-          }
-        }
-      })
+      mockUsers.authWithPassword.mockRejectedValue({ status: 400 })
 
       const result = await service.signIn({
         email: 'test@example.com',
@@ -369,56 +356,32 @@ describe('AuthService', () => {
       const mockUser = { id: 'user123' }
       const mockProfile = { id: 'profile123' }
 
-      mockCollection.mockImplementation((collection) => {
-        if (collection === 'users') {
-          return {
-            authWithPassword: jest
-              .fn()
-              .mockResolvedValue({ record: mockUser }),
-          }
-        }
-        if (collection === 'profiles') {
-          return {
-            getFirstListItem: jest.fn().mockResolvedValue(mockProfile),
-            update: jest.fn().mockResolvedValue(mockProfile),
-          }
-        }
-      })
+      mockUsers.authWithPassword.mockResolvedValue({ record: mockUser })
+      mockProfiles.getFirstListItem.mockResolvedValue(mockProfile)
+      mockProfiles.update.mockResolvedValue(mockProfile)
 
       await service.signIn({
         email: 'test@example.com',
         password: 'TestPassword123!',
       })
 
-      const updateCall = mockCollection('profiles').update.mock.calls[0]
+      const updateCall = mockProfiles.update.mock.calls[0]
       expect(updateCall[1]).toHaveProperty('last_activity_date')
     })
 
     it('should lowercase email for login', async () => {
       const mockUser = { id: 'user123' }
-
-      mockCollection.mockImplementation((collection) => {
-        if (collection === 'users') {
-          return {
-            authWithPassword: jest
-              .fn()
-              .mockResolvedValue({ record: mockUser }),
-          }
-        }
-        if (collection === 'profiles') {
-          return {
-            getFirstListItem: jest.fn().mockResolvedValue({}),
-            update: jest.fn().mockResolvedValue({}),
-          }
-        }
-      })
+      
+      mockUsers.authWithPassword.mockResolvedValue({ record: mockUser })
+      mockProfiles.getFirstListItem.mockResolvedValue({})
+      mockProfiles.update.mockResolvedValue({})
 
       await service.signIn({
         email: 'Test@EXAMPLE.COM',
         password: 'TestPassword123!',
       })
 
-      const authCall = mockCollection('users').authWithPassword.mock.calls[0]
+      const authCall = mockUsers.authWithPassword.mock.calls[0]
       expect(authCall[0]).toBe('test@example.com')
     })
   })
@@ -483,9 +446,7 @@ describe('AuthService', () => {
     it('should retrieve user profile', async () => {
       const mockProfile = { id: 'profile123', username: 'testuser' }
 
-      mockCollection.mockReturnValue({
-        getFirstListItem: jest.fn().mockResolvedValue(mockProfile),
-      })
+      mockProfiles.getFirstListItem.mockResolvedValue(mockProfile)
 
       const profile = await service.getUserProfile('user123')
 
@@ -496,9 +457,7 @@ describe('AuthService', () => {
       const mockProfile = { id: 'profile123', username: 'testuser' }
       ;(pb.authStore as any).model = { id: 'user123' }
 
-      mockCollection.mockReturnValue({
-        getFirstListItem: jest.fn().mockResolvedValue(mockProfile),
-      })
+      mockProfiles.getFirstListItem.mockResolvedValue(mockProfile)
 
       const profile = await service.getUserProfile()
 
@@ -514,11 +473,7 @@ describe('AuthService', () => {
     })
 
     it('should return null on error', async () => {
-      mockCollection.mockReturnValue({
-        getFirstListItem: jest
-          .fn()
-          .mockRejectedValue(new Error('Not found')),
-      })
+      mockProfiles.getFirstListItem.mockRejectedValue(new Error('Not found'))
 
       const profile = await service.getUserProfile('user123')
 
@@ -534,9 +489,7 @@ describe('AuthService', () => {
         bio: 'Updated bio',
       }
 
-      mockCollection.mockReturnValue({
-        update: jest.fn().mockResolvedValue(mockProfile),
-      })
+      mockProfiles.update.mockResolvedValue(mockProfile)
 
       const result = await service.updateProfile('profile123', {
         username: 'newusername',
@@ -559,7 +512,7 @@ describe('AuthService', () => {
       })
 
       expect(result.success).toBe(false)
-      expect(result.error).toContain('nom')
+      expect(result.error).toContain('username')
     })
 
     it('should validate phone number if updating', async () => {
@@ -574,16 +527,14 @@ describe('AuthService', () => {
       })
 
       expect(result.success).toBe(false)
-      expect(result.error).toContain('téléphone')
+      expect(result.error).toContain('phone')
     })
 
     it('should accept valid Senegal phone numbers', async () => {
       const mockValidatePhoneNumber = validatePhoneNumber as jest.Mock
       mockValidatePhoneNumber.mockReturnValue({ valid: true })
 
-      mockCollection.mockReturnValue({
-        update: jest.fn().mockResolvedValue({}),
-      })
+      mockProfiles.update.mockResolvedValue({})
 
       const result = await service.updateProfile('profile123', {
         phone_number: '+221701234567',
@@ -593,12 +544,8 @@ describe('AuthService', () => {
     })
 
     it('should handle duplicate username error', async () => {
-      mockCollection.mockReturnValue({
-        update: jest
-          .fn()
-          .mockRejectedValue({
-            data: { data: { username: 'Username taken' } },
-          }),
+      mockProfiles.update.mockRejectedValue({
+        data: { data: { username: 'Username taken' } },
       })
 
       const result = await service.updateProfile('profile123', {
@@ -617,9 +564,7 @@ describe('AuthService', () => {
         avatar_url: 'file:///avatar.jpg',
       }
 
-      mockCollection.mockReturnValue({
-        update: jest.fn().mockResolvedValue(mockProfile),
-      })
+      mockProfiles.update.mockResolvedValue(mockProfile)
 
       const result = await service.updateAvatar('profile123', 'file:///image.jpg')
 
@@ -628,9 +573,7 @@ describe('AuthService', () => {
     })
 
     it('should handle avatar update errors', async () => {
-      mockCollection.mockReturnValue({
-        update: jest.fn().mockRejectedValue(new Error('Upload failed')),
-      })
+      mockProfiles.update.mockRejectedValue(new Error('Upload failed'))
 
       const result = await service.updateAvatar('profile123', 'file:///image.jpg')
 
@@ -641,14 +584,12 @@ describe('AuthService', () => {
 
   describe('requestPasswordReset', () => {
     it('should request password reset with valid email', async () => {
-      mockCollection.mockReturnValue({
-        requestPasswordReset: jest.fn().mockResolvedValue({}),
-      })
+      mockUsers.requestPasswordReset.mockResolvedValue({})
 
       const result = await service.requestPasswordReset('test@example.com')
 
       expect(result.success).toBe(true)
-      expect(mockCollection('users').requestPasswordReset).toHaveBeenCalledWith(
+      expect(mockUsers.requestPasswordReset).toHaveBeenCalledWith(
         'test@example.com'
       )
     })
@@ -667,11 +608,7 @@ describe('AuthService', () => {
     })
 
     it('should handle password reset errors', async () => {
-      mockCollection.mockReturnValue({
-        requestPasswordReset: jest
-          .fn()
-          .mockRejectedValue(new Error('User not found')),
-      })
+      mockUsers.requestPasswordReset.mockRejectedValue(new Error('User not found'))
 
       const result = await service.requestPasswordReset('notfound@example.com')
 
@@ -680,13 +617,11 @@ describe('AuthService', () => {
     })
 
     it('should lowercase email for reset request', async () => {
-      mockCollection.mockReturnValue({
-        requestPasswordReset: jest.fn().mockResolvedValue({}),
-      })
+      mockUsers.requestPasswordReset.mockResolvedValue({})
 
       await service.requestPasswordReset('Test@EXAMPLE.COM')
 
-      expect(mockCollection('users').requestPasswordReset).toHaveBeenCalledWith(
+      expect(mockUsers.requestPasswordReset).toHaveBeenCalledWith(
         'test@example.com'
       )
     })

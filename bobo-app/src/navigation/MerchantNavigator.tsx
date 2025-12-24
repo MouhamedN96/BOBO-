@@ -66,14 +66,14 @@ export const MerchantNavigator = () => {
   return (
     <Tab.Navigator
       screenOptions={{
-        tabBarActiveTintColor: colors.terracotta.primary,
+        tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: colors.text.tertiary,
         tabBarStyle: {
-          backgroundColor: colors.background.primary,
+          backgroundColor: colors.background.main,
           borderTopColor: colors.border.light,
         },
         headerStyle: {
-          backgroundColor: colors.background.primary,
+          backgroundColor: colors.background.main,
         },
         headerTintColor: colors.text.primary,
       }}
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: colors.background.primary,
+    backgroundColor: colors.background.main,
   },
   placeholderText: {
     fontSize: 32,

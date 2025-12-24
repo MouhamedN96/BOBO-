@@ -91,7 +91,7 @@ export const LoginScreen = ({ navigation }: any) => {
             disabled={isLoading}
           >
             {isLoading ? (
-              <ActivityIndicator color={colors.clay.white} />
+              <ActivityIndicator color={colors.text.inverse} />
             ) : (
               <Text style={styles.buttonText}>Se connecter</Text>
             )}
@@ -128,7 +128,7 @@ export const LoginScreen = ({ navigation }: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background.primary,
+    backgroundColor: colors.background.main,
   },
   scrollContent: {
     flexGrow: 1,
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
   },
   logo: {
     ...typography.display,
-    color: colors.terracotta.primary,
+    color: colors.primary,
     marginBottom: spacing.sm,
   },
   tagline: {
@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
   },
   input: {
     ...typography.body,
-    backgroundColor: colors.background.secondary,
+    backgroundColor: colors.background.surface,
     borderWidth: 1,
     borderColor: colors.border.light,
     borderRadius: 12,
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
     color: colors.text.primary,
   },
   button: {
-    backgroundColor: colors.terracotta.primary,
+    backgroundColor: colors.primary,
     borderRadius: 12,
     padding: spacing.base,
     alignItems: 'center',
@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     ...typography.button,
-    color: colors.clay.white,
+    color: colors.text.inverse,
   },
   forgotPassword: {
     alignItems: 'center',
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
   },
   forgotPasswordText: {
     ...typography.caption,
-    color: colors.indigo.deep,
+    color: colors.primary,
   },
   divider: {
     flexDirection: 'row',
@@ -219,6 +219,6 @@ const styles = StyleSheet.create({
   },
   signupLinkTextBold: {
     ...typography.bodyBold,
-    color: colors.terracotta.primary,
+    color: colors.primary,
   },
 })

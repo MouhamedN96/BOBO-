@@ -181,11 +181,11 @@ export const QRScannerScreen = ({ navigation }: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.charcoal.base,
+    backgroundColor: colors.background.dark,
   },
   message: {
     ...typography.body,
-    color: colors.clay.white,
+    color: colors.text.inverse,
     textAlign: 'center',
   },
   errorIcon: {
@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
   },
   errorTitle: {
     ...typography.h1,
-    color: colors.clay.white,
+    color: colors.text.inverse,
     textAlign: 'center',
     marginBottom: spacing.md,
   },
@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.xl,
   },
   settingsButton: {
-    backgroundColor: colors.terracotta.primary,
+    backgroundColor: colors.primary,
     borderRadius: 12,
     paddingVertical: spacing.base,
     paddingHorizontal: spacing.xl,
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
   },
   settingsButtonText: {
     ...typography.button,
-    color: colors.clay.white,
+    color: colors.text.inverse,
     textAlign: 'center',
   },
   camera: {
@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
     paddingBottom: spacing.xl,
   },
   instructionsBox: {
-    backgroundColor: colors.charcoal.base + 'DD',
+    backgroundColor: 'rgba(17, 24, 39, 0.8)', // Semi-transparent dark
     borderRadius: 16,
     padding: spacing.lg,
     marginHorizontal: spacing.xl,
@@ -244,13 +244,13 @@ const styles = StyleSheet.create({
   },
   instructionsTitle: {
     ...typography.h2,
-    color: colors.clay.white,
+    color: colors.text.inverse,
     marginBottom: spacing.xs,
     textAlign: 'center',
   },
   instructionsText: {
     ...typography.body,
-    color: colors.clay.white,
+    color: colors.text.inverse,
     marginBottom: spacing.xs,
     textAlign: 'center',
   },
@@ -275,7 +275,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: 40,
     height: 40,
-    borderColor: colors.terracotta.primary,
+    borderColor: colors.primary,
   },
   cornerTopLeft: {
     top: 0,
@@ -306,24 +306,24 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 8,
   },
   scanningIndicator: {
-    backgroundColor: colors.indigo.deep + 'DD',
+    backgroundColor: colors.primary + 'DD',
     borderRadius: 8,
     paddingVertical: spacing.sm,
     paddingHorizontal: spacing.md,
   },
   scanningText: {
     ...typography.bodyBold,
-    color: colors.clay.white,
+    color: colors.text.inverse,
   },
   scannedIndicator: {
-    backgroundColor: colors.forest.green + 'DD',
+    backgroundColor: colors.success + 'DD',
     borderRadius: 8,
     paddingVertical: spacing.sm,
     paddingHorizontal: spacing.md,
   },
   scannedText: {
     ...typography.bodyBold,
-    color: colors.clay.white,
+    color: colors.text.inverse,
   },
   bottomSection: {
     flex: 1,
@@ -332,7 +332,7 @@ const styles = StyleSheet.create({
     paddingTop: spacing.xl,
   },
   rescanButton: {
-    backgroundColor: colors.terracotta.primary,
+    backgroundColor: colors.primary,
     borderRadius: 12,
     paddingVertical: spacing.base,
     paddingHorizontal: spacing.xl,
@@ -341,7 +341,7 @@ const styles = StyleSheet.create({
   },
   rescanButtonText: {
     ...typography.button,
-    color: colors.clay.white,
+    color: colors.text.inverse,
     textAlign: 'center',
   },
   cancelButton: {
@@ -350,12 +350,13 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.base,
     paddingHorizontal: spacing.xl,
     borderWidth: 2,
-    borderColor: colors.clay.white,
+    borderColor: colors.text.inverse,
     minWidth: 200,
   },
   cancelButtonText: {
     ...typography.button,
-    color: colors.clay.white,
+    color: colors.text.inverse,
     textAlign: 'center',
   },
 })
+

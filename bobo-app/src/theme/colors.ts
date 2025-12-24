@@ -1,97 +1,69 @@
 /**
- * BOBO Color Palette
- * Based on NJOOBA's "Sunset Over Dakar" design system
- * Adapted for React Native
+ * BOBO Color Palette (Refined for "Classy Afro-Tech")
+ * Inspired by: Taobao (Energy), Amazon (Trust), Alibaba (Commerce)
+ * Philosophy: "Lagos Gold & Midnight Indigo"
  */
 
 export const colors = {
-  // Primary Palette
-  terracotta: {
-    primary: '#E07856',
-    semantic: 'warmth_energy_cta',
-  },
-  indigo: {
-    deep: '#2D3561',
-    semantic: 'depth_trust_sophistication',
-  },
-  savanna: {
-    gold: '#F2A541',
-    semantic: 'value_premium_celebration',
-  },
-  forest: {
-    green: '#1B4D3E',
-    semantic: 'growth_life_progress',
-  },
+  // Brand Core
+  primary: '#2E1065',      // Midnight Indigo - Tech, Depth, Trust (Amazon/Alibaba logic but richer)
+  secondary: '#F59E0B',    // Lagos Gold/Amber - Wealth, Optimism, African Sun (Taobao Energy)
+  accent: '#10B981',       // Signal Green - Success, Verified Payment, Growth
 
-  // Supporting Palette
-  sand: {
-    neutral: '#E8D7C3',
-  },
-  charcoal: {
-    base: '#1F1F1F',
-  },
-  clay: {
-    white: '#FAF8F5',
-  },
-  rust: {
-    accent: '#B8563E',
-  },
+  // Functional Palette
+  success: '#059669',      // Emerald 600
+  warning: '#D97706',      // Amber 600
+  error: '#DC2626',        // Red 600
+  info: '#2563EB',         // Royal Blue 600
 
-  // Semantic Colors (for common use cases)
-  primary: '#E07856',      // Terracotta - CTAs, buttons
-  secondary: '#F2A541',    // Savanna Gold - Premium, featured
-  success: '#1B4D3E',      // Forest Green - Success states
-  error: '#B8563E',        // Rust - Error states
-  warning: '#F2A541',      // Savanna Gold - Warnings
-  info: '#2D3561',         // Indigo - Info states
-
-  // Text Colors
-  text: {
-    primary: '#1F1F1F',    // Charcoal
-    secondary: '#4A5568',  // Gray
-    tertiary: '#A0AEC0',   // Light gray
-    inverse: '#FAF8F5',    // Clay white
-  },
-
-  // Background Colors
+  // Surface & Backgrounds (The "Classy" Element)
   background: {
-    primary: '#FFFFFF',
-    secondary: '#FAF8F5',  // Clay white
-    tertiary: '#E8D7C3',   // Sand neutral
-    dark: '#1F1F1F',       // Charcoal
+    main: '#FDFBF7',       // Warm Paper/Sand - Replaces sterile white. Easy on eyes.
+    surface: '#FFFFFF',    // Pure White - For cards (Contrast against Sand)
+    subtle: '#F3F4F6',     // Cool Gray 100 - For secondary areas
+    dark: '#111827',       // Gray 900 - For dark mode / headers
   },
 
-  // Border Colors
+  // Typography Colors
+  text: {
+    primary: '#111827',    // Gray 900 - Sharp, readable
+    secondary: '#4B5563',  // Gray 600 - Softer metadata
+    tertiary: '#9CA3AF',   // Gray 400 - Placeholders
+    inverse: '#FFFFFF',    // White text on dark backgrounds
+    gold: '#B45309',       // Dark Amber - Text version of gold
+  },
+
+  // Borders & Dividers
   border: {
-    light: '#E2E8F0',
-    medium: '#CBD5E0',
-    dark: '#A0AEC0',
+    light: '#E5E7EB',      // Gray 200
+    medium: '#D1D5DB',     // Gray 300
+    active: '#2E1065',     // Indigo (Primary)
   },
 
-  // Overlay Colors
-  overlay: {
-    light: 'rgba(0, 0, 0, 0.3)',
-    medium: 'rgba(0, 0, 0, 0.5)',
-    dark: 'rgba(0, 0, 0, 0.7)',
+  // Interactive Elements
+  active: {
+    base: '#2E1065',       // Primary
+    pressed: '#1E1B4B',    // Darker Indigo
+    hover: '#4C1D95',      // Lighter Indigo
   },
 } as const
 
-// Category Colors (for product categories)
+// Category Colors (Refined for the new palette)
 export const categoryColors = {
-  fashion: colors.terracotta.primary,
-  electronics: colors.indigo.deep,
-  beauty: colors.savanna.gold,
-  food: colors.forest.green,
-  home: colors.rust.accent,
-  other: colors.sand.neutral,
+  fashion: '#BE185D',      // Pink 700 (Vibrant)
+  electronics: '#2E1065',  // Indigo (Tech)
+  beauty: '#D946EF',       // Fuchsia 500
+  food: '#059669',         // Emerald (Fresh)
+  home: '#EA580C',         // Orange 600 (Warmth)
+  other: '#6B7280',        // Gray 500
 } as const
 
-// Level Colors (for gamification)
+// Gamification Levels (Gold/Indigo Theme)
 export const levelColors = {
-  newcomer: colors.forest.green,     // Level 1-5
-  shopper: colors.terracotta.primary, // Level 6-10
-  seller: colors.savanna.gold,       // Level 11-20
-  merchant: colors.indigo.deep,      // Level 21-35
-  mogul: colors.savanna.gold,        // Level 36-50
-  leader: colors.terracotta.primary, // Level 51+
+  newcomer: '#059669',     // Green (Growth)
+  shopper: '#2563EB',      // Blue (Trust)
+  seller: '#7C3AED',       // Violet (Skill)
+  merchant: '#F59E0B',     // Amber (Gold status)
+  mogul: '#DC2626',        // Red (Power)
+  leader: '#111827',       // Black (Authority)
 } as const

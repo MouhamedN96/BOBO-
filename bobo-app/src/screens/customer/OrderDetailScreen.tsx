@@ -109,7 +109,7 @@ export const OrderDetailScreen = ({ route, navigation }: any) => {
   if (isLoading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color={colors.terracotta.primary} />
+        <ActivityIndicator size="large" color={colors.primary} />
       </View>
     )
   }
@@ -398,7 +398,7 @@ const DeliveryStep = ({ number, label, isActive, isCompleted, icon }: DeliverySt
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background.primary,
+    backgroundColor: colors.background.main,
   },
   loadingContainer: {
     flex: 1,
@@ -417,7 +417,7 @@ const styles = StyleSheet.create({
   statusCard: {
     padding: spacing.base,
     paddingVertical: spacing.lg,
-    backgroundColor: colors.background.secondary,
+    backgroundColor: colors.background.surface,
     borderBottomWidth: 1,
     borderBottomColor: colors.border.light,
     alignItems: 'center',
@@ -473,10 +473,10 @@ const styles = StyleSheet.create({
     marginBottom: spacing.sm,
   },
   deliveryDotActive: {
-    backgroundColor: colors.terracotta.primary,
+    backgroundColor: colors.primary,
   },
   deliveryDotCompleted: {
-    backgroundColor: colors.forest.green,
+    backgroundColor: colors.success,
   },
   deliveryDotIcon: {
     fontSize: 24,
@@ -497,7 +497,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing['3xl'],
   },
   timelineConnectorActive: {
-    backgroundColor: colors.forest.green,
+    backgroundColor: colors.success,
   },
   sellerHeader: {
     flexDirection: 'row',
@@ -508,7 +508,7 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: colors.background.secondary,
+    backgroundColor: colors.background.surface,
     marginRight: spacing.md,
   },
   sellerInfo: {
@@ -521,7 +521,7 @@ const styles = StyleSheet.create({
   },
   sellerRating: {
     ...typography.caption,
-    color: colors.savanna.gold,
+    color: colors.secondary,
   },
   sellerActions: {
     flexDirection: 'row',
@@ -534,26 +534,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   chatButton: {
-    backgroundColor: colors.terracotta.primary + '20',
+    backgroundColor: colors.primary + '20',
     borderWidth: 1,
-    borderColor: colors.terracotta.primary,
+    borderColor: colors.primary,
   },
   chatButtonText: {
     ...typography.captionBold,
-    color: colors.terracotta.primary,
+    color: colors.primary,
   },
   callButton: {
-    backgroundColor: colors.indigo.deep + '20',
+    backgroundColor: colors.primary + '20',
     borderWidth: 1,
-    borderColor: colors.indigo.deep,
+    borderColor: colors.primary,
   },
   callButtonText: {
     ...typography.captionBold,
-    color: colors.indigo.deep,
+    color: colors.primary,
   },
   productCard: {
     flexDirection: 'row',
-    backgroundColor: colors.background.secondary,
+    backgroundColor: colors.background.surface,
     borderRadius: 8,
     overflow: 'hidden',
     borderWidth: 1,
@@ -562,7 +562,7 @@ const styles = StyleSheet.create({
   productImage: {
     width: 100,
     height: 100,
-    backgroundColor: colors.background.primary,
+    backgroundColor: colors.background.main,
   },
   productInfo: {
     flex: 1,
@@ -595,7 +595,6 @@ const styles = StyleSheet.create({
   totalRow: {
     borderTopWidth: 1,
     borderTopColor: colors.border.light,
-    paddingTopVertical: spacing.md,
     paddingTop: spacing.md,
   },
   label: {
@@ -613,7 +612,7 @@ const styles = StyleSheet.create({
   },
   totalValue: {
     ...typography.priceLarge,
-    color: colors.terracotta.primary,
+    color: colors.primary,
   },
   infoRow: {
     flexDirection: 'row',
@@ -636,7 +635,7 @@ const styles = StyleSheet.create({
     lineHeight: 22,
   },
   trackingBox: {
-    backgroundColor: colors.background.secondary,
+    backgroundColor: colors.background.surface,
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.base,
     borderRadius: 8,
@@ -646,7 +645,7 @@ const styles = StyleSheet.create({
   },
   trackingNumber: {
     ...typography.body,
-    color: colors.indigo.deep,
+    color: colors.primary,
     fontFamily: 'monospace',
     fontWeight: '600',
     textAlign: 'center',
@@ -661,22 +660,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   cancelButton: {
-    backgroundColor: colors.rust.accent + '20',
+    backgroundColor: colors.error + '20',
     borderWidth: 1,
-    borderColor: colors.rust.accent,
+    borderColor: colors.error,
   },
   cancelButtonText: {
     ...typography.captionBold,
-    color: colors.rust.accent,
+    color: colors.error,
   },
   reorderButton: {
-    backgroundColor: colors.terracotta.primary,
+    backgroundColor: colors.primary,
   },
   reorderButtonText: {
     ...typography.captionBold,
-    color: colors.clay.white,
+    color: colors.text.inverse,
   },
   spacer: {
     height: spacing.base,
   },
 })
+

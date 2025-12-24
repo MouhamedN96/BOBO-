@@ -1,152 +1,137 @@
 /**
  * BOBO Typography
- * Based on NJOOBA's typography scale
- * Converted to React Native StyleSheet
+ * Refined for "Classy" Readability
+ * System fonts with careful hierarchy
  */
 
 import { StyleSheet, TextStyle } from 'react-native'
+import { colors } from './colors'
 
 // Font Families
 export const fontFamilies = {
-  heading: 'System',  // Will use system font for now, can add custom fonts later
+  heading: 'System',  // Keep system for performance/native feel
   body: 'System',
-  display: 'System',
+  monospace: 'Courier New',
 } as const
 
 // Typography Styles
 export const typography = StyleSheet.create({
-  // Display (Large hero text)
+  // Display (Large hero text - "Waouh" factor)
   display: {
-    fontFamily: fontFamilies.display,
-    fontSize: 32,
-    fontWeight: '700' as TextStyle['fontWeight'],
-    lineHeight: 38.4,  // 32 * 1.2
-    letterSpacing: -0.32,
+    fontFamily: fontFamilies.heading,
+    fontSize: 34,
+    fontWeight: '800' as TextStyle['fontWeight'],
+    lineHeight: 40,
+    letterSpacing: -0.5,
+    color: colors.text.primary,
   },
 
   // Headings
   h1: {
     fontFamily: fontFamilies.heading,
-    fontSize: 28,
+    fontSize: 26,
     fontWeight: '700' as TextStyle['fontWeight'],
-    lineHeight: 33.6,  // 28 * 1.2
-    letterSpacing: -0.28,
+    lineHeight: 32,
+    letterSpacing: -0.4,
+    color: colors.text.primary,
   },
 
   h2: {
     fontFamily: fontFamilies.heading,
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: '600' as TextStyle['fontWeight'],
-    lineHeight: 26,  // 20 * 1.3
-    letterSpacing: -0.1,
+    lineHeight: 28,
+    letterSpacing: -0.3,
+    color: colors.text.primary,
   },
 
   h3: {
     fontFamily: fontFamilies.heading,
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '600' as TextStyle['fontWeight'],
-    lineHeight: 22.4,  // 16 * 1.4
-    letterSpacing: 0,
+    lineHeight: 24,
+    letterSpacing: -0.2,
+    color: colors.text.primary,
   },
 
-  // Body Text
+  // Body Text (Readable, spacious)
   body: {
     fontFamily: fontFamilies.body,
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: '400' as TextStyle['fontWeight'],
-    lineHeight: 22.5,  // 15 * 1.5
-    letterSpacing: 0,
+    lineHeight: 24,
+    color: colors.text.secondary,
   },
 
   bodyBold: {
     fontFamily: fontFamilies.body,
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: '600' as TextStyle['fontWeight'],
-    lineHeight: 22.5,
-    letterSpacing: 0,
+    lineHeight: 24,
+    color: colors.text.primary,
   },
 
   bodySmall: {
     fontFamily: fontFamilies.body,
     fontSize: 14,
     fontWeight: '400' as TextStyle['fontWeight'],
-    lineHeight: 21,  // 14 * 1.5
-    letterSpacing: 0,
+    lineHeight: 20,
+    color: colors.text.secondary,
   },
 
-  // Caption (Small supporting text)
+  // Caption (Metadata, timestamps)
   caption: {
     fontFamily: fontFamilies.body,
-    fontSize: 13,
+    fontSize: 12,
     fontWeight: '500' as TextStyle['fontWeight'],
-    lineHeight: 18.2,  // 13 * 1.4
-    letterSpacing: 0,
+    lineHeight: 16,
+    color: colors.text.tertiary,
   },
 
   captionBold: {
     fontFamily: fontFamilies.body,
-    fontSize: 13,
-    fontWeight: '600' as TextStyle['fontWeight'],
-    lineHeight: 18.2,
-    letterSpacing: 0,
+    fontSize: 12,
+    fontWeight: '700' as TextStyle['fontWeight'],
+    lineHeight: 16,
+    color: colors.text.primary,
   },
 
-  // Micro (Tiny text, timestamps, labels)
   micro: {
     fontFamily: fontFamilies.body,
-    fontSize: 11,
-    fontWeight: '600' as TextStyle['fontWeight'],
-    lineHeight: 14.3,  // 11 * 1.3
-    letterSpacing: 0.5,
-  },
-
-  // Button Text
-  button: {
-    fontFamily: fontFamilies.body,
-    fontSize: 16,
-    fontWeight: '600' as TextStyle['fontWeight'],
-    lineHeight: 24,
-    letterSpacing: 0.5,
+    fontSize: 10,
+    fontWeight: '700' as TextStyle['fontWeight'],
+    lineHeight: 12,
+    color: colors.text.tertiary,
     textTransform: 'uppercase' as TextStyle['textTransform'],
   },
 
-  buttonSmall: {
-    fontFamily: fontFamilies.body,
-    fontSize: 14,
-    fontWeight: '600' as TextStyle['fontWeight'],
-    lineHeight: 20,
-    letterSpacing: 0.5,
-    textTransform: 'uppercase' as TextStyle['textTransform'],
-  },
-
-  // Link Text
-  link: {
-    fontFamily: fontFamilies.body,
-    fontSize: 15,
-    fontWeight: '500' as TextStyle['fontWeight'],
-    lineHeight: 22.5,
-    textDecorationLine: 'underline' as TextStyle['textDecorationLine'],
-  },
-
-  // Price Text
+  // Specialized
   price: {
     fontFamily: fontFamilies.heading,
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: '700' as TextStyle['fontWeight'],
     lineHeight: 24,
-    letterSpacing: 0,
+    color: colors.text.primary,
   },
 
   priceLarge: {
     fontFamily: fontFamilies.heading,
-    fontSize: 28,
-    fontWeight: '700' as TextStyle['fontWeight'],
-    lineHeight: 32,
-    letterSpacing: -0.28,
+    fontSize: 24,
+    fontWeight: '800' as TextStyle['fontWeight'],
+    lineHeight: 30,
+    color: colors.secondary, // Lagos Gold
+  },
+
+  button: {
+    fontFamily: fontFamilies.heading,
+    fontSize: 16,
+    fontWeight: '600' as TextStyle['fontWeight'],
+    lineHeight: 24,
+    letterSpacing: 0.5,
+    color: colors.text.inverse,
   },
 })
 
-// Helper function to combine typography with custom styles
 export const combineTextStyles = (...styles: any[]) => {
   return StyleSheet.flatten(styles)
 }

@@ -296,7 +296,7 @@ export const AddProductScreen = ({ navigation }: any) => {
           disabled={isLoading}
         >
           {isLoading ? (
-            <ActivityIndicator color={colors.clay.white} />
+            <ActivityIndicator color={colors.text.inverse} />
           ) : (
             <Text style={styles.submitButtonText}>Créer le produit</Text>
           )}
@@ -311,7 +311,7 @@ export const AddProductScreen = ({ navigation }: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background.primary,
+    backgroundColor: colors.background.main,
   },
   scrollView: {
     flex: 1,
@@ -333,7 +333,7 @@ const styles = StyleSheet.create({
   },
   imagePlaceholder: {
     flex: 1,
-    backgroundColor: colors.background.secondary,
+    backgroundColor: colors.background.surface,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 2,
@@ -358,7 +358,7 @@ const styles = StyleSheet.create({
   },
   input: {
     ...typography.body,
-    backgroundColor: colors.background.secondary,
+    backgroundColor: colors.background.surface,
     borderWidth: 1,
     borderColor: colors.border.light,
     borderRadius: 12,
@@ -375,7 +375,7 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   categoryButton: {
-    backgroundColor: colors.background.secondary,
+    backgroundColor: colors.background.surface,
     borderWidth: 1,
     borderColor: colors.border.light,
     borderRadius: 8,
@@ -383,8 +383,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.md,
   },
   categoryButtonActive: {
-    backgroundColor: colors.terracotta.primary + '20',
-    borderColor: colors.terracotta.primary,
+    backgroundColor: colors.primary + '20',
+    borderColor: colors.primary,
   },
   categoryButtonText: {
     ...typography.caption,
@@ -392,10 +392,10 @@ const styles = StyleSheet.create({
   },
   categoryButtonTextActive: {
     ...typography.captionBold,
-    color: colors.terracotta.primary,
+    color: colors.primary,
   },
   submitButton: {
-    backgroundColor: colors.terracotta.primary,
+    backgroundColor: colors.primary,
     borderRadius: 12,
     padding: spacing.base,
     alignItems: 'center',
@@ -406,7 +406,7 @@ const styles = StyleSheet.create({
   },
   submitButtonText: {
     ...typography.button,
-    color: colors.clay.white,
+    color: colors.text.inverse,
   },
   hint: {
     ...typography.micro,
@@ -422,14 +422,14 @@ const styles = StyleSheet.create({
   videoSelected: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: colors.indigo.deep + '20',
+    backgroundColor: colors.primary + '20',
     borderWidth: 2,
-    borderColor: colors.indigo.deep,
+    borderColor: colors.primary,
     borderRadius: 12,
     padding: spacing.md,
   },
   videoPlaceholder: {
-    backgroundColor: colors.background.secondary,
+    backgroundColor: colors.background.surface,
     borderWidth: 2,
     borderColor: colors.border.light,
     borderStyle: 'dashed',
@@ -443,7 +443,7 @@ const styles = StyleSheet.create({
   },
   videoInfo: {
     ...typography.body,
-    color: colors.indigo.deep,
+    color: colors.primary,
     flex: 1,
   },
   videoPlaceholderText: {
@@ -455,9 +455,10 @@ const styles = StyleSheet.create({
   },
   removeVideoText: {
     ...typography.h3,
-    color: colors.rust.accent,
+    color: colors.error,
   },
   bottomSpacing: {
     height: spacing['3xl'],
   },
 })
+

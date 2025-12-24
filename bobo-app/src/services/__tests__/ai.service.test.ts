@@ -295,8 +295,10 @@ describe('NLPEngine', () => {
 
   describe('parseQuery - Edge Cases', () => {
     it('should handle null/undefined gracefully', () => {
-      // @ts-ignore - testing error handling
-      expect(() => NLPEngine.parseQuery(null)).toThrow()
+      // @ts-ignore - testing runtime error handling
+      const intent = NLPEngine.parseQuery(null)
+      expect(intent.keywords).toEqual([])
+      expect(intent.query).toBe('')
     })
 
     it('should handle very long queries', () => {

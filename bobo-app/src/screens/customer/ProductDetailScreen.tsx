@@ -112,7 +112,7 @@ export const ProductDetailScreen = ({ route, navigation }: any) => {
   if (isLoading) {
     return (
       <View style={styles.loading}>
-        <ActivityIndicator size="large" color={colors.terracotta.primary} />
+        <ActivityIndicator size="large" color={colors.primary} />
       </View>
     )
   }
@@ -303,13 +303,13 @@ export const ProductDetailScreen = ({ route, navigation }: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background.primary,
+    backgroundColor: colors.background.main,
   },
   loading: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: colors.background.primary,
+    backgroundColor: colors.background.main,
   },
   errorText: {
     ...typography.h2,
@@ -324,7 +324,7 @@ const styles = StyleSheet.create({
   videoContainer: {
     width: SCREEN_WIDTH,
     height: SCREEN_WIDTH * 0.75,
-    backgroundColor: colors.charcoal.base,
+    backgroundColor: colors.background.dark,
     position: 'relative',
   },
   video: {
@@ -335,13 +335,13 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: colors.charcoal.base + '80',
+    backgroundColor: 'rgba(0,0,0,0.4)',
   },
   playButton: {
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: colors.terracotta.primary,
+    backgroundColor: colors.primary,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -352,7 +352,7 @@ const styles = StyleSheet.create({
     width: SCREEN_WIDTH,
     height: SCREEN_WIDTH,
     resizeMode: 'cover',
-    backgroundColor: colors.background.secondary,
+    backgroundColor: colors.background.subtle,
   },
   infoContainer: {
     padding: spacing.lg,
@@ -370,7 +370,7 @@ const styles = StyleSheet.create({
     marginRight: spacing.md,
   },
   featuredBadge: {
-    backgroundColor: colors.savanna.gold,
+    backgroundColor: colors.secondary,
     borderRadius: 20,
     width: 40,
     height: 40,
@@ -384,9 +384,8 @@ const styles = StyleSheet.create({
     marginBottom: spacing.md,
   },
   price: {
-    ...typography.price,
+    ...typography.priceLarge,
     fontSize: 32,
-    color: colors.savanna.gold,
     marginBottom: spacing.xs,
   },
   discountRow: {
@@ -400,46 +399,46 @@ const styles = StyleSheet.create({
     marginRight: spacing.sm,
   },
   discountBadge: {
-    backgroundColor: colors.rust.accent,
+    backgroundColor: colors.secondary,
     borderRadius: 6,
     paddingHorizontal: spacing.sm,
     paddingVertical: 4,
   },
   discountText: {
     ...typography.micro,
-    color: colors.clay.white,
+    color: colors.text.inverse,
     fontWeight: '700',
   },
   outOfStockBanner: {
-    backgroundColor: colors.rust.accent + '20',
+    backgroundColor: colors.error + '20',
     borderRadius: 8,
     padding: spacing.md,
     marginBottom: spacing.lg,
     borderWidth: 1,
-    borderColor: colors.rust.accent,
+    borderColor: colors.error,
   },
   outOfStockText: {
     ...typography.bodyBold,
-    color: colors.rust.accent,
+    color: colors.error,
     textAlign: 'center',
   },
   inStockBanner: {
-    backgroundColor: colors.forest.green + '20',
+    backgroundColor: colors.success + '20',
     borderRadius: 8,
     padding: spacing.md,
     marginBottom: spacing.lg,
     borderWidth: 1,
-    borderColor: colors.forest.green,
+    borderColor: colors.success,
   },
   inStockText: {
     ...typography.bodyBold,
-    color: colors.forest.green,
+    color: colors.success,
     textAlign: 'center',
   },
   sellerCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: colors.background.secondary,
+    backgroundColor: colors.background.surface,
     borderRadius: 12,
     padding: spacing.md,
     marginBottom: spacing.lg,
@@ -451,7 +450,7 @@ const styles = StyleSheet.create({
     height: 48,
     borderRadius: 24,
     marginRight: spacing.md,
-    backgroundColor: colors.background.primary,
+    backgroundColor: colors.background.subtle,
   },
   sellerInfo: {
     flex: 1,
@@ -474,14 +473,14 @@ const styles = StyleSheet.create({
     color: colors.text.secondary,
   },
   contactButton: {
-    backgroundColor: colors.indigo.deep,
+    backgroundColor: colors.primary,
     borderRadius: 8,
     paddingVertical: spacing.sm,
     paddingHorizontal: spacing.md,
   },
   contactButtonText: {
     ...typography.captionBold,
-    color: colors.clay.white,
+    color: colors.text.inverse,
   },
   section: {
     marginBottom: spacing.lg,
@@ -514,7 +513,7 @@ const styles = StyleSheet.create({
   upvoteButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: colors.background.secondary,
+    backgroundColor: colors.background.surface,
     borderRadius: 12,
     padding: spacing.md,
     borderWidth: 2,
@@ -529,7 +528,7 @@ const styles = StyleSheet.create({
     color: colors.text.secondary,
   },
   upvoteTextActive: {
-    color: colors.rust.accent,
+    color: colors.error,
   },
   bottomSpacer: {
     height: spacing.xl,
@@ -539,14 +538,14 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: colors.background.primary,
+    backgroundColor: colors.background.main,
     borderTopWidth: 1,
     borderTopColor: colors.border.light,
     padding: spacing.md,
     paddingBottom: spacing.lg,
   },
   buyButton: {
-    backgroundColor: colors.terracotta.primary,
+    backgroundColor: colors.primary,
     borderRadius: 12,
     padding: spacing.base,
     alignItems: 'center',
@@ -556,6 +555,6 @@ const styles = StyleSheet.create({
   },
   buyButtonText: {
     ...typography.button,
-    color: colors.clay.white,
+    color: colors.text.inverse,
   },
 })

@@ -150,7 +150,7 @@ export const ProductsListScreen = ({ navigation }: any) => {
           <RefreshControl
             refreshing={refreshing}
             onRefresh={onRefresh}
-            tintColor={colors.terracotta.primary}
+            tintColor={colors.primary}
           />
         }
       />
@@ -169,14 +169,14 @@ export const ProductsListScreen = ({ navigation }: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background.primary,
+    backgroundColor: colors.background.main,
   },
   listContent: {
     padding: spacing.base,
     paddingBottom: 100,
   },
   productCard: {
-    backgroundColor: colors.background.primary,
+    backgroundColor: colors.background.surface,
     borderRadius: 12,
     padding: spacing.base,
     marginBottom: spacing.base,
@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 8,
-    backgroundColor: colors.background.secondary,
+    backgroundColor: colors.background.subtle,
   },
   productInfo: {
     flex: 1,
@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
   },
   productPrice: {
     ...typography.price,
-    color: colors.savanna.gold,
+    color: colors.secondary,
     marginBottom: spacing.xs,
   },
   productStock: {
@@ -219,14 +219,14 @@ const styles = StyleSheet.create({
   },
   qrSection: {
     flexDirection: 'row',
-    backgroundColor: colors.background.secondary,
+    backgroundColor: colors.background.subtle,
     borderRadius: 8,
     padding: spacing.md,
     marginBottom: spacing.md,
   },
   qrContainer: {
     padding: spacing.sm,
-    backgroundColor: colors.clay.white,
+    backgroundColor: '#FFFFFF',
     borderRadius: 8,
   },
   qrInfo: {
@@ -246,7 +246,7 @@ const styles = StyleSheet.create({
   },
   qrLink: {
     ...typography.micro,
-    color: colors.indigo.deep,
+    color: colors.primary,
     fontFamily: 'monospace',
   },
   actions: {
@@ -260,22 +260,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   editButton: {
-    backgroundColor: colors.indigo.deep + '20',
+    backgroundColor: colors.primary + '20',
     borderWidth: 1,
-    borderColor: colors.indigo.deep,
+    borderColor: colors.primary,
   },
   editButtonText: {
     ...typography.captionBold,
-    color: colors.indigo.deep,
+    color: colors.primary,
   },
   deleteButton: {
-    backgroundColor: colors.rust.accent + '20',
+    backgroundColor: colors.error + '20',
     borderWidth: 1,
-    borderColor: colors.rust.accent,
+    borderColor: colors.error,
   },
   deleteButtonText: {
     ...typography.captionBold,
-    color: colors.rust.accent,
+    color: colors.error,
   },
   empty: {
     alignItems: 'center',
@@ -303,12 +303,12 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 30,
-    backgroundColor: colors.terracotta.primary,
+    backgroundColor: colors.primary,
     justifyContent: 'center',
     alignItems: 'center',
     ...StyleSheet.create({
       shadow: {
-        shadowColor: colors.terracotta.primary,
+        shadowColor: colors.primary,
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.3,
         shadowRadius: 8,
@@ -318,7 +318,8 @@ const styles = StyleSheet.create({
   },
   fabIcon: {
     fontSize: 32,
-    color: colors.clay.white,
+    color: colors.text.inverse,
     fontWeight: '300',
   },
 })
+

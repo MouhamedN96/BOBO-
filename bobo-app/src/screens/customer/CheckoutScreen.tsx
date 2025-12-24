@@ -171,7 +171,7 @@ export const CheckoutScreen = ({ route, navigation }: any) => {
   if (!product || !profile) {
     return (
       <View style={styles.loading}>
-        <ActivityIndicator size="large" color={colors.terracotta.primary} />
+        <ActivityIndicator size="large" color={colors.primary} />
       </View>
     )
   }
@@ -441,7 +441,7 @@ export const CheckoutScreen = ({ route, navigation }: any) => {
           disabled={isLoading}
         >
           {isLoading ? (
-            <ActivityIndicator color={colors.clay.white} size="small" />
+            <ActivityIndicator color={colors.text.inverse} size="small" />
           ) : (
             <Text style={styles.checkoutButtonText}>Confirmer la commande</Text>
           )}
@@ -454,13 +454,13 @@ export const CheckoutScreen = ({ route, navigation }: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background.primary,
+    backgroundColor: colors.background.main,
   },
   loading: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: colors.background.primary,
+    backgroundColor: colors.background.main,
   },
   scrollView: {
     flex: 1,
@@ -472,7 +472,7 @@ const styles = StyleSheet.create({
   // Summary Card
   summaryCard: {
     margin: spacing.md,
-    backgroundColor: colors.background.secondary,
+    backgroundColor: colors.background.surface,
     borderRadius: 12,
     padding: spacing.md,
     borderWidth: 1,
@@ -492,7 +492,7 @@ const styles = StyleSheet.create({
     height: 80,
     borderRadius: 8,
     marginRight: spacing.md,
-    backgroundColor: colors.background.primary,
+    backgroundColor: colors.background.main,
   },
   productInfo: {
     flex: 1,
@@ -538,11 +538,11 @@ const styles = StyleSheet.create({
   },
   discountLabel: {
     ...typography.body,
-    color: colors.forest.green,
+    color: colors.success,
   },
   discountValue: {
     ...typography.bodyBold,
-    color: colors.forest.green,
+    color: colors.success,
   },
   subtotalRow: {
     flexDirection: 'row',
@@ -583,7 +583,7 @@ const styles = StyleSheet.create({
   },
   totalValue: {
     ...typography.h2,
-    color: colors.savanna.gold,
+    color: colors.secondary,
   },
 
   // Sections
@@ -609,15 +609,15 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.base,
     ...typography.body,
     color: colors.text.primary,
-    backgroundColor: colors.background.primary,
+    backgroundColor: colors.background.main,
   },
   inputError: {
-    borderColor: colors.rust.accent,
-    backgroundColor: colors.rust.accent + '10',
+    borderColor: colors.error,
+    backgroundColor: colors.error + '10',
   },
   errorText: {
     ...typography.caption,
-    color: colors.rust.accent,
+    color: colors.error,
     marginTop: spacing.xs,
   },
   helperText: {
@@ -632,7 +632,7 @@ const styles = StyleSheet.create({
     borderColor: colors.border.light,
     borderRadius: 8,
     padding: spacing.sm,
-    backgroundColor: colors.background.primary,
+    backgroundColor: colors.background.main,
   },
   regionScroll: {
     flexGrow: 0,
@@ -642,20 +642,20 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderRadius: 6,
     marginRight: spacing.xs,
-    backgroundColor: colors.background.secondary,
+    backgroundColor: colors.background.surface,
     borderWidth: 1,
     borderColor: colors.border.light,
   },
   regionButtonActive: {
-    backgroundColor: colors.terracotta.primary,
-    borderColor: colors.terracotta.primary,
+    backgroundColor: colors.primary,
+    borderColor: colors.primary,
   },
   regionButtonText: {
     ...typography.caption,
     color: colors.text.primary,
   },
   regionButtonTextActive: {
-    color: colors.clay.white,
+    color: colors.text.inverse,
     fontWeight: '700',
   },
 
@@ -664,7 +664,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: colors.background.secondary,
+    backgroundColor: colors.background.surface,
     borderRadius: 12,
     padding: spacing.md,
     marginBottom: spacing.md,
@@ -672,8 +672,8 @@ const styles = StyleSheet.create({
     borderColor: colors.border.light,
   },
   paymentButtonActive: {
-    borderColor: colors.terracotta.primary,
-    backgroundColor: colors.terracotta.primary + '10',
+    borderColor: colors.primary,
+    backgroundColor: colors.primary + '10',
   },
   paymentButtonContent: {
     flexDirection: 'row',
@@ -705,18 +705,18 @@ const styles = StyleSheet.create({
     marginLeft: spacing.md,
   },
   radioButtonActive: {
-    borderColor: colors.terracotta.primary,
-    backgroundColor: colors.terracotta.primary,
+    borderColor: colors.primary,
+    backgroundColor: colors.primary,
   },
 
   // Payment Info Box
   paymentInfoBox: {
-    backgroundColor: colors.terracotta.primary + '15',
+    backgroundColor: colors.primary + '15',
     borderRadius: 8,
     padding: spacing.md,
     marginBottom: spacing.md,
     borderLeftWidth: 4,
-    borderLeftColor: colors.terracotta.primary,
+    borderLeftColor: colors.primary,
   },
   paymentInfoText: {
     ...typography.caption,
@@ -728,7 +728,7 @@ const styles = StyleSheet.create({
     marginHorizontal: spacing.md,
     marginBottom: spacing.lg,
     padding: spacing.md,
-    backgroundColor: colors.background.secondary,
+    backgroundColor: colors.background.surface,
     borderRadius: 8,
   },
   termsText: {
@@ -746,7 +746,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: colors.background.primary,
+    backgroundColor: colors.background.main,
     borderTopWidth: 1,
     borderTopColor: colors.border.light,
     padding: spacing.md,
@@ -763,10 +763,10 @@ const styles = StyleSheet.create({
   },
   totalBarValue: {
     ...typography.h1,
-    color: colors.savanna.gold,
+    color: colors.secondary,
   },
   checkoutButton: {
-    backgroundColor: colors.terracotta.primary,
+    backgroundColor: colors.primary,
     borderRadius: 12,
     paddingVertical: spacing.base,
     alignItems: 'center',
@@ -777,6 +777,7 @@ const styles = StyleSheet.create({
   },
   checkoutButtonText: {
     ...typography.button,
-    color: colors.clay.white,
+    color: colors.text.inverse,
   },
 })
+

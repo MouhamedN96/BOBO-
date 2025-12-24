@@ -1,7 +1,7 @@
 /**
  * Product Card Component
- * Adapted from NJOOBA's MobileOptimizedCard for React Native
- * Used in Discovery Feed
+ * Refined for "Afro-Flux" Design System
+ * Features Lagos Gold accents and elegant typography
  */
 
 import React from 'react'
@@ -12,10 +12,11 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native'
-import { colors, typography, spacing } from '../../theme'
-import { formatCFA, truncateText } from '../../utils/formatters'
-import { pb } from '../../lib/pocketbase'
-import type { Product } from '../../types/models'
+import Ionicons from 'react-native-vector-icons/Ionicons'
+import { theme, colors } from '../theme'
+import { formatCFA, truncateText } from '../utils/formatters'
+import { pb } from '../lib/pocketbase'
+import type { Product } from '../types/models'
 
 interface ProductCardProps {
   product: Product
@@ -23,7 +24,7 @@ interface ProductCardProps {
 }
 
 export const ProductCard = ({ product, onPress }: ProductCardProps) => {
-  const imageUrl = pb.getFileUrl(product, product.image_url)
+  const imageUrl = product.image_url ? pb.getFileUrl(product, product.image_url) : 'https://via.placeholder.com/300'
   const hasVideo = !!product.video_url
   const hasDiscount = product.discount_price && product.discount_price < product.price
   const displayPrice = hasDiscount ? product.discount_price! : product.price
@@ -38,14 +39,14 @@ export const ProductCard = ({ product, onPress }: ProductCardProps) => {
       <View style={styles.imageContainer}>
         <Image source={{ uri: imageUrl }} style={styles.image} />
 
-        {/* Video Badge */}
+        {/* Video Badge - Glassy */}
         {hasVideo && (
           <View style={styles.videoBadge}>
-            <Text style={styles.videoBadgeIcon}>▶️</Text>
+            <Ionicons name="play-circle" size={16} color={colors.text.inverse} />
           </View>
         )}
 
-        {/* Discount Badge */}
+        {/* Discount Badge - Gold Label */}
         {hasDiscount && (
           <View style={styles.discountBadge}>
             <Text style={styles.discountText}>
@@ -54,32 +55,30 @@ export const ProductCard = ({ product, onPress }: ProductCardProps) => {
           </View>
         )}
 
-        {/* Featured Badge */}
-        {product.is_featured && (
-          <View style={styles.featuredBadge}>
-            <Text style={styles.featuredIcon}>⭐</Text>
-          </View>
-        )}
+        {/* Favorite Button (Floating) */}
+        <TouchableOpacity style={styles.favButton}>
+          <Ionicons name="heart-outline" size={20} color={colors.primary} />
+        </TouchableOpacity>
       </View>
 
       {/* Content */}
       <View style={styles.content}>
         {/* Title */}
-        <Text style={styles.title} numberOfLines={2}>
+        <Text style={theme.typography.h3} numberOfLines={1}>
           {product.title}
         </Text>
 
-        {/* Price */}
+        {/* Price Row */}
         <View style={styles.priceRow}>
+          <Text style={theme.typography.priceLarge}>{formatCFA(displayPrice)}</Text>
           {hasDiscount && (
             <Text style={styles.originalPrice}>
               {formatCFA(product.price)}
             </Text>
           )}
-          <Text style={styles.price}>{formatCFA(displayPrice)}</Text>
         </View>
 
-        {/* Seller & Stats */}
+        {/* Seller Info */}
         <View style={styles.footer}>
           <View style={styles.seller}>
             {product.expand?.seller_id && (
@@ -92,22 +91,26 @@ export const ProductCard = ({ product, onPress }: ProductCardProps) => {
                   }}
                   style={styles.avatar}
                 />
-                <Text style={styles.sellerName} numberOfLines={1}>
+                <Text style={theme.typography.caption} numberOfLines={1}>
                   {product.expand.seller_id.username}
                 </Text>
               </>
             )}
           </View>
 
+          {/* Upvotes */}
           <View style={styles.stats}>
-            <Text style={styles.statText}>❤️ {product.upvotes}</Text>
+            <Ionicons name="flame" size={14} color={colors.secondary} />
+            <Text style={[theme.typography.caption, { marginLeft: 4, color: colors.secondary }]}>
+              {product.upvotes}
+            </Text>
           </View>
         </View>
 
-        {/* Stock Status */}
+        {/* Status */}
         {product.stock_quantity === 0 && (
           <View style={styles.outOfStock}>
-            <Text style={styles.outOfStockText}>Rupture de stock</Text>
+            <Text style={styles.outOfStockText}>SOLD OUT</Text>
           </View>
         )}
       </View>
@@ -117,27 +120,18 @@ export const ProductCard = ({ product, onPress }: ProductCardProps) => {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: colors.background.primary,
-    borderRadius: 12,
+    backgroundColor: colors.background.surface,
+    borderRadius: 20, // More rounded, modern
     overflow: 'hidden',
-    marginBottom: spacing.base,
     borderWidth: 1,
     borderColor: colors.border.light,
-    ...StyleSheet.create({
-      shadow: {
-        shadowColor: colors.terracotta.primary,
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.08,
-        shadowRadius: 4,
-        elevation: 3,
-      },
-    }).shadow,
+    ...theme.shadows.medium,
   },
   imageContainer: {
     position: 'relative',
     width: '100%',
-    height: 200,
-    backgroundColor: colors.background.secondary,
+    height: 220,
+    backgroundColor: colors.background.subtle,
   },
   image: {
     width: '100%',
@@ -146,71 +140,62 @@ const styles = StyleSheet.create({
   },
   videoBadge: {
     position: 'absolute',
-    top: spacing.sm,
-    left: spacing.sm,
-    backgroundColor: colors.charcoal.base + 'DD',
-    borderRadius: 6,
-    paddingHorizontal: spacing.sm,
-    paddingVertical: 4,
-  },
-  videoBadgeIcon: {
-    fontSize: 12,
+    top: 12,
+    left: 12,
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    borderRadius: 12,
+    padding: 6,
   },
   discountBadge: {
     position: 'absolute',
-    top: spacing.sm,
-    right: spacing.sm,
-    backgroundColor: colors.rust.accent,
-    borderRadius: 6,
-    paddingHorizontal: spacing.sm,
+    top: 12,
+    right: 12,
+    backgroundColor: colors.secondary, // Lagos Gold
+    borderRadius: 8,
+    paddingHorizontal: 8,
     paddingVertical: 4,
   },
   discountText: {
-    ...typography.micro,
-    color: colors.clay.white,
-    fontWeight: '700',
+    ...theme.typography.micro,
+    color: colors.text.inverse,
+    fontWeight: '800',
   },
-  featuredBadge: {
+  favButton: {
     position: 'absolute',
-    bottom: spacing.sm,
-    right: spacing.sm,
-    backgroundColor: colors.savanna.gold,
-    borderRadius: 20,
-    width: 32,
-    height: 32,
+    bottom: -15, // Hanging off the image
+    right: 12,
+    backgroundColor: colors.background.surface,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  featuredIcon: {
-    fontSize: 16,
+    ...theme.shadows.small,
+    borderWidth: 1,
+    borderColor: colors.border.light,
   },
   content: {
-    padding: spacing.md,
-  },
-  title: {
-    ...typography.h3,
-    color: colors.text.primary,
-    marginBottom: spacing.sm,
+    padding: 16,
+    paddingTop: 20, // Extra space for floating fav button
   },
   priceRow: {
     flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: spacing.md,
+    alignItems: 'baseline',
+    marginTop: 4,
+    marginBottom: 12,
   },
   originalPrice: {
-    ...typography.caption,
-    color: colors.text.tertiary,
+    ...theme.typography.caption,
     textDecorationLine: 'line-through',
-    marginRight: spacing.sm,
-  },
-  price: {
-    ...typography.price,
-    color: colors.savanna.gold,
+    marginLeft: 8,
   },
   footer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    borderTopWidth: 1,
+    borderTopColor: colors.border.light,
+    paddingTop: 12,
   },
   seller: {
     flexDirection: 'row',
@@ -218,36 +203,31 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   avatar: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    marginRight: spacing.xs,
-    backgroundColor: colors.background.secondary,
-  },
-  sellerName: {
-    ...typography.caption,
-    color: colors.text.secondary,
-    flex: 1,
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    marginRight: 8,
+    backgroundColor: colors.background.subtle,
   },
   stats: {
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  statText: {
-    ...typography.caption,
-    color: colors.text.secondary,
+    backgroundColor: colors.background.main,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 12,
   },
   outOfStock: {
-    marginTop: spacing.sm,
-    paddingVertical: spacing.xs,
-    paddingHorizontal: spacing.sm,
-    backgroundColor: colors.rust.accent + '20',
-    borderRadius: 6,
+    marginTop: 12,
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    backgroundColor: colors.error + '10',
+    borderRadius: 4,
     alignSelf: 'flex-start',
   },
   outOfStockText: {
-    ...typography.micro,
-    color: colors.rust.accent,
-    fontWeight: '700',
+    ...theme.typography.micro,
+    color: colors.error,
+    fontWeight: '800',
   },
 })

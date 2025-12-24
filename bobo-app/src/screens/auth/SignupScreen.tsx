@@ -169,7 +169,7 @@ export const SignupScreen = ({ navigation }: any) => {
             disabled={isLoading}
           >
             {isLoading ? (
-              <ActivityIndicator color={colors.clay.white} />
+              <ActivityIndicator color={colors.text.inverse} />
             ) : (
               <Text style={styles.buttonText}>Créer mon compte</Text>
             )}
@@ -194,7 +194,7 @@ export const SignupScreen = ({ navigation }: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background.primary,
+    backgroundColor: colors.background.main,
   },
   scrollContent: {
     flexGrow: 1,
@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
   },
   backButtonText: {
     ...typography.body,
-    color: colors.indigo.deep,
+    color: colors.primary,
   },
   title: {
     ...typography.h1,
@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
   },
   accountTypeButton: {
     flex: 1,
-    backgroundColor: colors.background.secondary,
+    backgroundColor: colors.background.surface,
     borderWidth: 2,
     borderColor: colors.border.light,
     borderRadius: 12,
@@ -237,15 +237,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   accountTypeButtonActive: {
-    borderColor: colors.terracotta.primary,
-    backgroundColor: colors.terracotta.primary + '10',
+    borderColor: colors.primary,
+    backgroundColor: colors.primary + '10',
   },
   accountTypeText: {
     ...typography.bodyBold,
     color: colors.text.secondary,
   },
   accountTypeTextActive: {
-    color: colors.terracotta.primary,
+    color: colors.primary,
   },
   form: {
     flex: 1,
@@ -260,7 +260,7 @@ const styles = StyleSheet.create({
   },
   input: {
     ...typography.body,
-    backgroundColor: colors.background.secondary,
+    backgroundColor: colors.background.surface,
     borderWidth: 1,
     borderColor: colors.border.light,
     borderRadius: 12,
@@ -273,7 +273,7 @@ const styles = StyleSheet.create({
     marginTop: spacing.xs,
   },
   button: {
-    backgroundColor: colors.terracotta.primary,
+    backgroundColor: colors.primary,
     borderRadius: 12,
     padding: spacing.base,
     alignItems: 'center',
@@ -284,7 +284,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     ...typography.button,
-    color: colors.clay.white,
+    color: colors.text.inverse,
   },
   loginLink: {
     alignItems: 'center',
@@ -296,6 +296,6 @@ const styles = StyleSheet.create({
   },
   loginLinkTextBold: {
     ...typography.bodyBold,
-    color: colors.terracotta.primary,
+    color: colors.primary,
   },
 })
