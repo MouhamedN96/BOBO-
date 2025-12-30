@@ -1,0 +1,16 @@
+{
+  "name": "@njooba/db",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@powersync/common": "^1.44.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}

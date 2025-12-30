@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import { ErrorBoundary } from '@/components/error-boundary'
+import { PowerSyncProvider } from '@/lib/powersync/Provider'
 
 export const viewport: Viewport = {
   themeColor: '#E65100',
@@ -40,9 +41,11 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className="texture-mudcloth overscroll-none">
         <ErrorBoundary>
-          <div className="min-h-screen">
-            {children}
-          </div>
+          <PowerSyncProvider>
+            <div className="min-h-screen">
+              {children}
+            </div>
+          </PowerSyncProvider>
         </ErrorBoundary>
       </body>
     </html>
