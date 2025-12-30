@@ -78,7 +78,7 @@ export const MobileOptimizedCard: React.FC<MobileOptimizedCardProps> = ({
     : {
         whileTap: { scale: 0.92 },
         transition: { type: 'spring', stiffness: 400, damping: 17 },
-      }
+      } as const
 
   return (
     <motion.article

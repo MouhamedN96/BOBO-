@@ -1,4 +1,18 @@
 import type { NextConfig } from 'next'
+import withPWAInit from '@ducanh2912/next-pwa'
+
+const withPWA = withPWAInit({
+  dest: 'public',
+  disable: process.env.NODE_ENV === 'development',
+  register: true,
+  cacheOnFrontEndNav: true,
+  aggressiveFrontEndNavCaching: true,
+  reloadOnOnline: true,
+  workboxOptions: {
+    disableDevLogs: true,
+    skipWaiting: true,
+  },
+})
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
@@ -16,7 +30,7 @@ const nextConfig: NextConfig = {
             key: 'Content-Security-Policy',
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-eval' 'unsafe-inline'", // Next.js requires unsafe-eval for dev
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://va.vercel-scripts.com", // Next.js requires unsafe-eval for dev
               "style-src 'self' 'unsafe-inline'", // Tailwind requires unsafe-inline
               "img-src 'self' data: https: blob:",
               "font-src 'self' data:",
@@ -52,4 +66,4 @@ const nextConfig: NextConfig = {
   },
 }
 
-export default nextConfig
+export default withPWA(nextConfig)
