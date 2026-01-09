@@ -7,7 +7,7 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { View, StyleSheet, ActivityIndicator } from 'react-native'
 import { GiftedChat, IMessage, Bubble, Send } from 'react-native-gifted-chat'
 import { useAuthStore } from '../../store/authStore'
-import { chatService } from '../../services/chat.service'
+import { chatService, type ChatMessage } from '@njooba/core'
 import { colors, typography } from '../../theme'
 
 export const ChatDetailScreen = ({ route }: any) => {
@@ -20,7 +20,7 @@ export const ChatDetailScreen = ({ route }: any) => {
     loadMessages()
 
     // Subscribe to realtime updates
-    chatService.subscribeToMessages(conversationId, (newMessage) => {
+    chatService.subscribeToMessages(conversationId, (newMessage: ChatMessage) => {
       // Avoid duplicates
       setMessages((previousMessages) => {
         if (previousMessages.some((m) => m._id === newMessage._id)) return previousMessages

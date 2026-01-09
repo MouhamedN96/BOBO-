@@ -22,11 +22,10 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { ProductCard } from '../../components/ProductCard'
-import { productsService } from '../../services/products.service'
-import { AISearchService, VisualSearch, VoiceSearch } from '../../services/ai.service'
+import { productsService, AISearchServicePowerSync, VisualSearch, VoiceSearch } from '@njooba/core'
 import { useAuthStore } from '../../store/authStore'
 import { colors, theme, combineTextStyles } from '../../theme'
-import type { Product } from '../../types/models'
+import type { Product } from '@njooba/core'
 
 const CATEGORIES = [
   { value: 'all', label: 'Tout', icon: 'apps-outline' },
@@ -108,8 +107,8 @@ export const DiscoveryScreen = ({ navigation }: any) => {
     setPage(1)
 
     try {
-      // Hybrid AI Search
-      const results = await AISearchService.smartSearch(searchQuery, profile?.id)
+      // Hybrid AI Search (PowerSync version)
+      const results = await AISearchServicePowerSync.smartSearch(searchQuery, profile?.id)
       setProducts(results)
     } catch (error) {
       console.error('AI search failed:', error)

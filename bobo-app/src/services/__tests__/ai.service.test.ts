@@ -3,7 +3,7 @@
  * Testing NLP parsing, language detection, and category detection
  */
 
-import { NLPEngine } from '../ai.service'
+import { NLPEngine } from '@njooba/core'
 
 describe('NLPEngine', () => {
   describe('parseQuery - Basic Keyword Extraction', () => {

@@ -20,12 +20,9 @@ import {
   Platform,
 } from 'react-native'
 import { useAuthStore } from '../../store/authStore'
-import { ordersService, type ShippingInfo } from '../../services/orders.service'
-import { pb } from '../../lib/pocketbase'
+import { ordersService, type ShippingInfo, getProductImageUrl } from '@njooba/core'
 import { colors, typography, spacing } from '../../theme'
-import { formatCFA } from '../../utils/formatters'
-import { validatePhoneNumber } from '../../utils/validation'
-import type { Product, Order } from '../../types/models'
+import { formatCFA, validatePhoneNumber, type Product, type Order } from '@njooba/core'
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window')
 
@@ -176,7 +173,7 @@ export const CheckoutScreen = ({ route, navigation }: any) => {
     )
   }
 
-  const imageUrl = pb.getFileUrl(product, product.image_url)
+  const imageUrl = getProductImageUrl(product.image_url) || 'https://via.placeholder.com/80'
   const hasDiscount = product.discount_price && product.discount_price < product.price
 
   return (

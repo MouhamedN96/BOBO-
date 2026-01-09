@@ -15,10 +15,8 @@ import {
   ActivityIndicator,
 } from 'react-native'
 import { useAuthStore } from '../../store/authStore'
-import { chatService, type Conversation } from '../../services/chat.service'
+import { chatService, formatDateTime, getAvatarUrl, type Conversation } from '@njooba/core'
 import { colors, typography, spacing } from '../../theme'
-import { formatDateTime } from '../../utils/formatters'
-import { pb } from '../../lib/pocketbase'
 
 export const ChatListScreen = ({ navigation }: any) => {
   const { profile } = useAuthStore()
@@ -45,10 +43,12 @@ export const ChatListScreen = ({ navigation }: any) => {
   }, [profile])
 
   const renderItem = ({ item }: { item: Conversation }) => {
-    // Find other participant
-    const otherUser = item.expand?.participants?.find((p: any) => p.id !== profile?.id)
+    // Find other participant (customer or merchant based on current user)
+    const otherUser = profile?.id === item.customer_id
+      ? item.expand?.merchant_id
+      : item.expand?.customer_id
     const avatarUrl = otherUser?.avatar_url
-      ? pb.getFileUrl(otherUser, otherUser.avatar_url)
+      ? getAvatarUrl(otherUser.avatar_url, 50)
       : undefined
 
     return (
@@ -66,7 +66,7 @@ export const ChatListScreen = ({ navigation }: any) => {
             <Text style={styles.date}>{formatDateTime(item.updated)}</Text>
           </View>
           <Text style={styles.lastMessage} numberOfLines={1}>
-            {item.lastMessage || 'Démarrer la conversation'}
+            {item.last_message || 'Démarrer la conversation'}
           </Text>
         </View>
       </TouchableOpacity>

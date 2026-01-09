@@ -2,7 +2,7 @@
   "name": "bobo-app",
   "version": "1.0.0",
   "description": "BOBO - African Live Commerce Marketplace",
-  "main": "node_modules/expo/AppEntry.js",
+  "main": "index.js",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -14,17 +14,18 @@
     "test:coverage": "jest --coverage"
   },
   "dependencies": {
+    "@powersync/react-native": "^1.8.2",
     "@react-native-async-storage/async-storage": "^2.1.0",
     "@react-navigation/bottom-tabs": "^6.5.11",
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/native-stack": "^6.9.17",
+    "@supabase/supabase-js": "^2.89.0",
     "dayjs": "^1.11.10",
     "expo": "~54.0.0",
     "expo-camera": "~16.0.0",
     "expo-image-picker": "~16.0.0",
     "expo-status-bar": "~2.0.0",
     "html5-qrcode": "^2.3.4",
-    "pocketbase": "^0.20.0",
     "react": "18.3.1",
     "react-native": "0.76.5",
     "react-native-audio-recorder-player": "^3.6.4",

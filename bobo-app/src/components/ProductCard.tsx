@@ -14,9 +14,7 @@ import {
 } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { theme, colors } from '../theme'
-import { formatCFA, truncateText } from '../utils/formatters'
-import { pb } from '../lib/pocketbase'
-import type { Product } from '../types/models'
+import { formatCFA, truncateText, getProductImageUrl, getAvatarUrl, type Product } from '@njooba/core'
 
 interface ProductCardProps {
   product: Product
@@ -24,7 +22,7 @@ interface ProductCardProps {
 }
 
 export const ProductCard = ({ product, onPress }: ProductCardProps) => {
-  const imageUrl = product.image_url ? pb.getFileUrl(product, product.image_url) : 'https://via.placeholder.com/300'
+  const imageUrl = getProductImageUrl(product.image_url) || 'https://via.placeholder.com/300'
   const hasVideo = !!product.video_url
   const hasDiscount = product.discount_price && product.discount_price < product.price
   const displayPrice = hasDiscount ? product.discount_price! : product.price
@@ -85,9 +83,7 @@ export const ProductCard = ({ product, onPress }: ProductCardProps) => {
               <>
                 <Image
                   source={{
-                    uri: product.expand.seller_id.avatar_url
-                      ? pb.getFileUrl(product.expand.seller_id, product.expand.seller_id.avatar_url)
-                      : 'https://via.placeholder.com/24',
+                    uri: getAvatarUrl(product.expand.seller_id.avatar_url, 20) || 'https://via.placeholder.com/24',
                   }}
                   style={styles.avatar}
                 />

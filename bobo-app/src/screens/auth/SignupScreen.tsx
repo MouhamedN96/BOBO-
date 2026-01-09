@@ -18,7 +18,7 @@ import {
 } from 'react-native'
 import { useAuthStore } from '../../store/authStore'
 import { colors, typography, spacing } from '../../theme'
-import type { SignupFormData } from '../../types/models'
+import type { SignupFormData } from '@njooba/core'
 
 export const SignupScreen = ({ navigation }: any) => {
   const { signUp, isLoading, error, clearError } = useAuthStore()

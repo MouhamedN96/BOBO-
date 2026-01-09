@@ -1,2 +1,4 @@
 packages:
   - 'packages/*'
+  - 'bobo-app'
+  - 'yokk-app'

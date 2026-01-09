@@ -17,7 +17,7 @@ import {
   ScrollView,
 } from 'react-native'
 import { useAuthStore } from '../../store/authStore'
-import { ordersService } from '../../services/orders.service'
+import { ordersService } from '@njooba/core'
 import { colors, typography, spacing } from '../../theme'
 import { formatCFA, formatDateTime, formatOrderStatus } from '../../utils/formatters'
 import type { Order } from '../../types/models'

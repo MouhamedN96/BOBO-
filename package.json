@@ -9,11 +9,20 @@
     "lint": "pnpm -r lint",
     "clean": "pnpm -r clean"
   },
-  "keywords": ["njooba", "pan-african", "developer-community", "africa", "tech"],
+  "keywords": [
+    "njooba",
+    "pan-african",
+    "developer-community",
+    "africa",
+    "tech"
+  ],
   "author": "NJOOBA Team",
   "license": "MIT",
   "engines": {
     "node": ">=18.0.0",
     "pnpm": ">=8.0.0"
+  },
+  "devDependencies": {
+    "@types/qrcode": "^1.5.6"
   }
 }

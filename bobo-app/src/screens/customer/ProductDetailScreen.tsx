@@ -17,8 +17,7 @@ import {
 } from 'react-native'
 import { Video, ResizeMode, AVPlaybackStatus } from 'expo-av'
 import { useAuthStore } from '../../store/authStore'
-import { productsService } from '../../services/products.service'
-import { pb } from '../../lib/pocketbase'
+import { productsService, getProductImageUrl, getAvatarUrl, getFileUrl } from '@njooba/core'
 import { colors, typography, spacing } from '../../theme'
 import { formatCFA } from '../../utils/formatters'
 import { calculateLevel } from '../../constants/gamification'
@@ -45,9 +44,13 @@ export const ProductDetailScreen = ({ route, navigation }: any) => {
     setIsLoading(true)
 
     try {
-      const fetchedProduct = await pb.collection('products').getOne(productId, {
-        expand: 'seller_id',
-      })
+      const fetchedProduct = await productsService.getById(productId)
+
+      if (!fetchedProduct) {
+        Alert.alert('Erreur', 'Produit introuvable')
+        navigation.goBack()
+        return
+      }
 
       setProduct(fetchedProduct as unknown as Product)
       setUpvoteCount(fetchedProduct.upvotes || 0)
@@ -125,11 +128,11 @@ export const ProductDetailScreen = ({ route, navigation }: any) => {
     )
   }
 
-  const imageUrl = pb.getFileUrl(product, product.image_url)
-  const videoUrl = product.video_url ? pb.getFileUrl(product, product.video_url) : null
   const hasDiscount = product.discount_price && product.discount_price < product.price
   const displayPrice = hasDiscount ? product.discount_price! : product.price
   const isOutOfStock = product.stock_quantity === 0
+  const imageUrl = getProductImageUrl(product.image_url) || 'https://via.placeholder.com/400'
+  const videoUrl = product.video_url ? getFileUrl('videos', product.video_url) : null
   const seller = product.expand?.seller_id
   const sellerLevel = seller ? calculateLevel(seller.xp) : null
 
@@ -214,9 +217,7 @@ export const ProductDetailScreen = ({ route, navigation }: any) => {
             >
               <Image
                 source={{
-                  uri: seller.avatar_url
-                    ? pb.getFileUrl(seller, seller.avatar_url)
-                    : 'https://via.placeholder.com/48',
+                  uri: getAvatarUrl(seller.avatar_url, 48) || 'https://via.placeholder.com/48',
                 }}
                 style={styles.sellerAvatar}
               />

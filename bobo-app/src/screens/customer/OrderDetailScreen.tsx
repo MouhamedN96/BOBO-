@@ -16,11 +16,9 @@ import {
   Linking,
 } from 'react-native'
 import { useAuthStore } from '../../store/authStore'
-import { ordersService } from '../../services/orders.service'
+import { ordersService, getProductImageUrl, getAvatarUrl } from '@njooba/core'
 import { colors, typography, spacing } from '../../theme'
-import { formatCFA, formatDateTime, formatOrderStatus, formatPhoneNumber } from '../../utils/formatters'
-import { pb } from '../../lib/pocketbase'
-import type { Order, Product } from '../../types/models'
+import { formatCFA, formatDateTime, formatOrderStatus, formatPhoneNumber, type Order, type Product } from '@njooba/core'
 
 export const OrderDetailScreen = ({ route, navigation }: any) => {
   const { orderId } = route.params
@@ -126,7 +124,7 @@ export const OrderDetailScreen = ({ route, navigation }: any) => {
   const seller = order.expand?.seller_id
   const product = order.expand?.product_id
   const imageUrl = product?.image_url
-    ? pb.getFileUrl(product, product.image_url)
+    ? getProductImageUrl(product.image_url) || 'https://via.placeholder.com/100'
     : undefined
 
   // Calculate delivery progress
@@ -197,7 +195,7 @@ export const OrderDetailScreen = ({ route, navigation }: any) => {
             {seller?.avatar_url && (
               <Image
                 source={{
-                  uri: pb.getFileUrl(seller, seller.avatar_url),
+                  uri: getAvatarUrl(seller.avatar_url, 48) || 'https://via.placeholder.com/48',
                 }}
                 style={styles.sellerAvatar}
               />

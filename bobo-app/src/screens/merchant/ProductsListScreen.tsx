@@ -16,11 +16,10 @@ import {
 } from 'react-native'
 import QRCode from 'react-native-qrcode-svg'
 import { useAuthStore } from '../../store/authStore'
-import { productsService } from '../../services/products.service'
+import { productsService, getProductImageUrl } from '@njooba/core'
 import { colors, typography, spacing } from '../../theme'
 import { formatCFA } from '../../utils/formatters'
 import type { Product } from '../../types/models'
-import { pb } from '../../lib/pocketbase'
 
 export const ProductsListScreen = ({ navigation }: any) => {
   const { profile } = useAuthStore()
@@ -70,7 +69,7 @@ export const ProductsListScreen = ({ navigation }: any) => {
   }
 
   const renderProduct = ({ item }: { item: Product }) => {
-    const imageUrl = pb.getFileUrl(item, item.image_url)
+    const imageUrl = getProductImageUrl(item.image_url) || 'https://via.placeholder.com/400'
     const deepLink = `bobo://product/${item.id}`
 
     return (

@@ -17,11 +17,9 @@ import {
   Alert,
 } from 'react-native'
 import { useAuthStore } from '../../store/authStore'
-import { ordersService } from '../../services/orders.service'
+import { ordersService, getProductImageUrl } from '@njooba/core'
 import { colors, typography, spacing } from '../../theme'
-import { formatCFA, formatDateTime, formatOrderStatus } from '../../utils/formatters'
-import { pb } from '../../lib/pocketbase'
-import type { Order } from '../../types/models'
+import { formatCFA, formatDateTime, formatOrderStatus, type Order } from '@njooba/core'
 
 type FilterStatus = 'active' | 'completed' | 'cancelled'
 
@@ -111,7 +109,7 @@ export const OrdersScreen = ({ navigation }: any) => {
 
   const renderOrderCard = ({ item: order }: { item: Order }) => {
     const imageUrl = order.expand?.product_id?.image_url
-      ? pb.getFileUrl(order.expand.product_id, order.expand.product_id.image_url)
+      ? getProductImageUrl(order.expand.product_id.image_url) || 'https://via.placeholder.com/80'
       : undefined
     const seller = order.expand?.seller_id?.username || 'Vendeur'
     const statusInfo = formatOrderStatus(order.status)

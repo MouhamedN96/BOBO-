@@ -27,6 +27,17 @@ export interface Profile extends BaseRecord {
   total_sales: number
   seller_rating?: number
   fcm_token?: string
+  // Delivery preferences for merchants
+  delivery_method?: 'bobo_managed' | 'merchant_self' | 'third_party' | 'customer_pickup'
+  preferred_carriers?: string[]
+  delivery_zones?: string[]
+  pickup_available?: boolean
+  delivery_cost_markup?: number
+  allow_customer_pickup?: boolean
+  allow_self_delivery?: boolean
+  allow_third_party?: boolean
+  pickup_location?: string
+  pickup_instructions?: string
 }
 
 // Product
@@ -73,6 +84,16 @@ export interface Order extends BaseRecord {
   shipping_address?: string
   phone_number: string
   tracking_number?: string
+  // Delivery fields
+  delivery_method?: 'bobo_managed' | 'merchant_self' | 'third_party' | 'customer_pickup'
+  delivery_status?: 'pending_dispatch' | 'assigned' | 'picked_up' | 'in_transit' | 'delivered' | 'failed' | 'customer_pickup_scheduled' | 'customer_pickup_completed'
+  delivery_person_id?: string
+  delivery_person_name?: string
+  delivery_person_phone?: string
+  delivery_cost?: number
+  delivery_completed_at?: string
+  delivery_tracking_url?: string
+  delivery_notes?: string
   // Expanded relations
   expand?: {
     buyer_id?: Profile
@@ -215,4 +236,34 @@ export interface ProductFormData {
   stock_quantity: number
   image_uri?: string
   video_uri?: string
+}
+
+// Launch (Product Hunt-style for African startups/apps)
+export interface Launch extends BaseRecord {
+  author_id: string
+  title: string
+  tagline: string
+  image_url?: string
+  video_url?: string
+  upvotes: number
+  is_trending: boolean
+  category: string
+  tags?: string[] // JSON array
+  description?: string
+  website_url?: string
+  // Expanded relations
+  expand?: {
+    author_id?: Profile
+  }
+}
+
+export interface LaunchFormData {
+  title: string
+  tagline: string
+  description?: string
+  image_uri?: string
+  video_uri?: string
+  category?: string
+  tags?: string[]
+  website_url?: string
 }

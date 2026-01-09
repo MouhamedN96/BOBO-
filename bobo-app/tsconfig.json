@@ -6,6 +6,15 @@
     "paths": {
       "@/*": [
         "./src/*"
+      ],
+      "@njooba/core": [
+        "../packages/core/src"
+      ],
+      "@njooba/design": [
+        "../packages/design/src"
+      ],
+      "@njooba/ai": [
+        "../packages/ai/src"
       ]
     },
     "esModuleInterop": true,

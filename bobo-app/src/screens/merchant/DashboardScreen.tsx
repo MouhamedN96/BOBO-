@@ -15,7 +15,7 @@ import {
   Dimensions,
 } from 'react-native'
 import { useAuthStore } from '../../store/authStore'
-import { ordersService } from '../../services/orders.service'
+import { ordersService } from '@njooba/core'
 import { colors, typography, spacing, theme } from '../../theme'
 import { formatCFA } from '../../utils/formatters'
 import Svg, { Path, Rect, G } from 'react-native-svg'

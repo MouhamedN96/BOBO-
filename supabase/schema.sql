@@ -175,6 +175,47 @@ CREATE TRIGGER update_posts_updated_at BEFORE UPDATE ON public.posts
 CREATE TRIGGER update_comments_updated_at BEFORE UPDATE ON public.comments
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
+-- Launches table (Product Hunt style for African startups/apps)
+CREATE TABLE IF NOT EXISTS public.launches (
+  id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+  author_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE NOT NULL,
+  title TEXT NOT NULL,
+  tagline TEXT NOT NULL,
+  image_url TEXT,
+  video_url TEXT,
+  upvotes INTEGER DEFAULT 0,
+  is_trending BOOLEAN DEFAULT FALSE,
+  category TEXT DEFAULT 'tech', -- tech, agtech, fintech, health, education, etc.
+  tags TEXT[] DEFAULT '{}',
+  description TEXT,
+  website_url TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Indexes for launches
+CREATE INDEX IF NOT EXISTS idx_launches_author ON public.launches(author_id);
+CREATE INDEX IF NOT EXISTS idx_launches_created ON public.launches(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_launches_upvotes ON public.launches(upvotes DESC);
+CREATE INDEX IF NOT EXISTS idx_launches_trending ON public.launches(is_trending);
+
+-- Launches RLS policies
+CREATE POLICY "Launches are viewable by everyone"
+  ON public.launches FOR SELECT
+  USING (true);
+
+CREATE POLICY "Users can create own launches"
+  ON public.launches FOR INSERT
+  WITH CHECK (auth.uid() = author_id);
+
+CREATE POLICY "Users can update own launches"
+  ON public.launches FOR UPDATE
+  USING (auth.uid() = author_id);
+
+CREATE POLICY "Users can delete own launches"
+  ON public.launches FOR DELETE
+  USING (auth.uid() = author_id);
+
 -- Function to handle new user signup
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER AS $$

@@ -4,10 +4,11 @@
  */
 
 import { useAuthStore } from '../authStore'
-import { authService } from '../../services/auth.service'
+import { authService } from '@njooba/core'
 
 // Mock auth service
-jest.mock('../../services/auth.service', () => ({
+jest.mock('@njooba/core', () => ({
+  ...jest.requireActual('@njooba/core'),
   authService: {
     signUp: jest.fn(),
     signIn: jest.fn(),
