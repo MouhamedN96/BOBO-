@@ -25,7 +25,7 @@ const profiles = new Table(
 const products = new Table(
   {
     merchant_id: column.text,
-    title: column.text,
+    name: column.text,
     description: column.text,
     price: column.real,
     discount_price: column.real,
