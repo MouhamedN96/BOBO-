@@ -53,7 +53,7 @@ export const CheckoutScreen = ({ route, navigation }: any) => {
   // Calculate prices
   const unitPrice = product.discount_price ?? product.price
   const subtotal = unitPrice * quantity
-  const sellerCity = product.merchant_city || 'Dakar'
+  const sellerCity = (product as any).merchant_city || 'Dakar'
   const shippingCost = shippingService.calculateShippingCost(sellerCity, city || 'Dakar')
   const total = subtotal + shippingCost
 
