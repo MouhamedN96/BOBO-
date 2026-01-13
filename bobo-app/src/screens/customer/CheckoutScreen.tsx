@@ -23,6 +23,8 @@ import { useAuthStore } from '../../store/authStore'
 import { ordersService, type ShippingInfo, getProductImageUrl } from '@njooba/core'
 import { colors, typography, spacing } from '../../theme'
 import { formatCFA, validatePhoneNumber, type Product, type Order } from '@njooba/core'
+import { shippingService } from '../../services/shipping.service'
+import { paymentService } from '../../services/payment.service'
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window')
 
@@ -51,7 +53,8 @@ export const CheckoutScreen = ({ route, navigation }: any) => {
   // Calculate prices
   const unitPrice = product.discount_price ?? product.price
   const subtotal = unitPrice * quantity
-  const shippingCost = 2000 // TODO: Dynamic shipping cost based on location
+  const sellerCity = product.merchant_city || 'Dakar'
+  const shippingCost = shippingService.calculateShippingCost(sellerCity, city || 'Dakar')
   const total = subtotal + shippingCost
 
   // Senegalese regions
@@ -136,23 +139,23 @@ export const CheckoutScreen = ({ route, navigation }: any) => {
             navigation.navigate('OrderSuccess', { orderId: result.order!.id })
           }, 1000)
         } else {
-          // TODO: Integrate with DEXCHANGE for Wave and Orange Money payments
-          // For now, show a pending payment screen
-          Alert.alert(
-            'Paiement en attente',
-            'Intégration DEXCHANGE en cours de mise en place',
-            [
-              {
-                text: 'OK',
-                onPress: () => {
-                  navigation.navigate('PaymentPending', {
-                    orderId: result.order!.id,
-                    transactionId: 'pending',
-                  })
-                },
-              },
-            ]
-          )
+          // Process mobile money payment via DEXCHANGE
+          const paymentResult = await paymentService.initializePayment({
+            orderId: result.order!.id,
+            amount: total,
+            method: paymentMethod,
+            phone: phoneNumber,
+          })
+
+          if (paymentResult.success) {
+            navigation.navigate('PaymentPending', {
+              orderId: result.order!.id,
+              transactionId: paymentResult.transactionId,
+              redirectUrl: paymentResult.redirectUrl,
+            })
+          } else {
+            Alert.alert('Erreur de paiement', paymentResult.message)
+          }
         }
       } else {
         Alert.alert('Erreur', result.error || 'Impossible de créer la commande')

@@ -12,11 +12,15 @@ const profiles = new Table(
     phone: column.text,
     full_name: column.text,
     avatar_url: column.text,
-    role: column.text, // 'buyer' | 'seller' | 'delivery'
+    role: column.text, // 'customer' | 'merchant' | 'delivery' | 'admin' | 'buyer' | 'seller'
     shop_name: column.text,
     seller_rating: column.real,
     city: column.text,
     neighborhood: column.text,
+    is_verified: column.integer, // 0 or 1 (boolean)
+    total_sales: column.integer,
+    created_at: column.text,
+    updated_at: column.text,
   },
   { indexes: { phone: ['phone'], role: ['role'] } }
 );
@@ -34,6 +38,8 @@ const products = new Table(
     images: column.text, // JSON string array of image URLs
     is_active: column.integer, // 0 or 1 (boolean)
     upvotes: column.integer,
+    created_at: column.text,
+    updated_at: column.text,
   },
   { indexes: { merchant_id: ['merchant_id'], category: ['category'], is_active: ['is_active'] } }
 );
@@ -43,15 +49,19 @@ const orders = new Table(
   {
     buyer_id: column.text,
     seller_id: column.text,
-    status: column.text, // 'pending' | 'confirmed' | 'shipped' | 'delivered' | 'cancelled'
-    payment_method: column.text, // 'cash' | 'mobile_money' | 'card'
+    status: column.text, // 'pending' | 'confirmed' | 'preparing' | 'ready' | 'shipped' | 'picked_up' | 'delivering' | 'delivered' | 'cancelled'
+    payment_method: column.text, // 'cash' | 'mobile_money' | 'card' | 'orange_money' | 'wave'
     payment_status: column.text, // 'pending' | 'paid' | 'failed'
+    payment_reference: column.text,
     subtotal: column.real,
     shipping_cost: column.real,
     total: column.real,
-    delivery_method: column.text, // 'pickup' | 'delivery'
+    delivery_method: column.text, // 'pickup' | 'delivery' | 'bobo_delivery' | 'merchant_delivery'
     delivery_address: column.text,
     delivery_phone: column.text,
+    delivery_notes: column.text,
+    created_at: column.text,
+    updated_at: column.text,
   },
   { indexes: { buyer_id: ['buyer_id'], seller_id: ['seller_id'], status: ['status'] } }
 );
@@ -66,6 +76,20 @@ const order_items = new Table(
     total_price: column.real,
   },
   { indexes: { order_id: ['order_id'], product_id: ['product_id'] } }
+);
+
+// Delivery persons table - delivery personnel information
+const delivery_persons = new Table(
+  {
+    user_id: column.text,
+    vehicle_type: column.text,
+    zones: column.text, // JSON string array of zones
+    is_available: column.integer, // 0 or 1 (boolean)
+    current_location: column.text, // JSON string for lat/lng
+    rating: column.real,
+    total_deliveries: column.integer,
+  },
+  { indexes: { user_id: ['user_id'], is_available: ['is_available'] } }
 );
 
 // Delivery requests table - delivery assignments
@@ -90,6 +114,8 @@ const livestream_overlay_state = new Table(
     current_product_id: column.text,
     product_title: column.text,
     product_price: column.text,
+    is_live: column.integer, // 0 or 1 (boolean)
+    platform: column.text,
     updated_at: column.text,
   },
   { indexes: { merchant_id: ['merchant_id'] } }
@@ -125,7 +151,7 @@ const messages = new Table(
     conversation_id: column.text,
     sender_id: column.text,
     content: column.text,
-    type: column.text, // 'text' | 'image' | 'audio' | 'location'
+    type: column.text, // 'text' | 'image' | 'audio' | 'voice' | 'location' | 'product' | 'order'
     metadata: column.text, // JSON string for additional data
     read_at: column.text,
     created_at: column.text,
@@ -141,6 +167,8 @@ const reviews = new Table(
     order_id: column.text,
     rating: column.integer, // 1-5
     comment: column.text,
+    images: column.text, // JSON string array of image URLs
+    created_at: column.text,
   },
   { indexes: { product_id: ['product_id'], buyer_id: ['buyer_id'], order_id: ['order_id'] } }
 );
@@ -151,6 +179,7 @@ export const AppSchema = new Schema({
   products,
   orders,
   order_items,
+  delivery_persons,
   delivery_requests,
   livestream_overlay_state,
   livestream_qr_scans,
