@@ -34,7 +34,7 @@ importers:
         version: 6.11.0(@react-navigation/native@6.1.18(react-native@0.76.5(@babel/core@7.28.5)(@babel/preset-env@7.28.5(@babel/core@7.28.5))(@types/react@18.3.27)(react@18.3.1))(react@18.3.1))(react-native-safe-area-context@4.12.0(react-native@0.76.5(@babel/core@7.28.5)(@babel/preset-env@7.28.5(@babel/core@7.28.5))(@types/react@18.3.27)(react@18.3.1))(react@18.3.1))(react-native-screens@4.4.0(react-native@0.76.5(@babel/core@7.28.5)(@babel/preset-env@7.28.5(@babel/core@7.28.5))(@types/react@18.3.27)(react@18.3.1))(react@18.3.1))(react-native@0.76.5(@babel/core@7.28.5)(@babel/preset-env@7.28.5(@babel/core@7.28.5))(@types/react@18.3.27)(react@18.3.1))(react@18.3.1)
       '@yaatal/client':
         specifier: github:Yaatal-labs/Yaatal-SDK#main
-        version: https://codeload.github.com/Yaatal-labs/Yaatal-SDK/tar.gz/b9786875cab6bb23b9295d25dbbf316d59bf9034
+        version: https://codeload.github.com/Yaatal-labs/Yaatal-SDK/tar.gz/6f14c1b4823a4b63b1c089f8301f3694a7421ca0
       babel-preset-expo:
         specifier: ~54.0.10
         version: 54.0.11(@babel/core@7.28.5)(@babel/runtime@7.28.4)(expo@54.0.35(@babel/core@7.28.5)(react-native@0.76.5(@babel/core@7.28.5)(@babel/preset-env@7.28.5(@babel/core@7.28.5))(@types/react@18.3.27)(react@18.3.1))(react@18.3.1))(react-refresh@0.14.2)
@@ -160,12 +160,9 @@ importers:
 
   packages/core:
     dependencies:
-      '@supabase/supabase-js':
-        specifier: '*'
-        version: 2.84.0
       '@yaatal/client':
         specifier: github:Yaatal-labs/Yaatal-SDK#main
-        version: https://codeload.github.com/Yaatal-labs/Yaatal-SDK/tar.gz/b9786875cab6bb23b9295d25dbbf316d59bf9034
+        version: https://codeload.github.com/Yaatal-labs/Yaatal-SDK/tar.gz/6f14c1b4823a4b63b1c089f8301f3694a7421ca0
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -1230,6 +1227,9 @@ packages:
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
 
+  '@pi-spi/qrcode@1.0.0':
+    resolution: {integrity: sha512-ipPBjIL+09Fqm9t5n17RVgJHBWTd4TE0IL9IBnOJmnvXinyQIPhWIOa522PpYPtCDI+pov90AMkEMkHklb3ihA==}
+
   '@react-native-async-storage/async-storage@2.2.0':
     resolution: {integrity: sha512-gvRvjR5JAaUZF8tv2Kcq/Gbt3JHwbKFYfmb445rhOj6NUMx3qPLixmDx5pZAyb9at1bYvJ4/eTUipU5aki45xw==}
     peerDependencies:
@@ -1401,11 +1401,13 @@ packages:
 
   '@react-navigation/core@6.4.17':
     resolution: {integrity: sha512-Nd76EpomzChWAosGqWOYE3ItayhDzIEzzZsT7PfGcRFDgW5miHV2t4MZcq9YIK4tzxZjVVpYbIynOOQQd1e0Cg==}
+    deprecated: This version is no longer supported
     peerDependencies:
       react: '*'
 
   '@react-navigation/elements@1.3.31':
     resolution: {integrity: sha512-bUzP4Awlljx5RKEExw8WYtif8EuQni2glDaieYROKTnaxsu9kEIA515sXQgUDZU4Ob12VoL7+z70uO3qrlfXcQ==}
+    deprecated: This version is no longer supported
     peerDependencies:
       '@react-navigation/native': ^6.0.0
       react: '*'
@@ -1430,6 +1432,7 @@ packages:
 
   '@react-navigation/routers@6.1.9':
     resolution: {integrity: sha512-lTM8gSFHSfkJvQkxacGM6VJtBt61ip2XO54aNfswD+KMw6eeZ4oehl7m0me3CR9hnDE4+60iAZR8sAhvCiI3NA==}
+    deprecated: This version is no longer supported
 
   '@sinclair/typebox@0.27.8':
     resolution: {integrity: sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==}
@@ -1439,30 +1442,6 @@ packages:
 
   '@sinonjs/fake-timers@10.3.0':
     resolution: {integrity: sha512-V4BG07kuYSUkTCSBHG8G8TNhM+F19jXFWnQtzj+we8DrkpSBCee9Z3Ms8yiGer/dlmhe35/Xdgyo3/0rQKg7YA==}
-
-  '@supabase/auth-js@2.84.0':
-    resolution: {integrity: sha512-J6XKbqqg1HQPMfYkAT9BrC8anPpAiifl7qoVLsYhQq5B/dnu/lxab1pabnxtJEsvYG5rwI5HEVEGXMjoQ6Wz2Q==}
-    engines: {node: '>=20.0.0'}
-
-  '@supabase/functions-js@2.84.0':
-    resolution: {integrity: sha512-2oY5QBV4py/s64zMlhPEz+4RTdlwxzmfhM1k2xftD2v1DruRZKfoe7Yn9DCz1VondxX8evcvpc2udEIGzHI+VA==}
-    engines: {node: '>=20.0.0'}
-
-  '@supabase/postgrest-js@2.84.0':
-    resolution: {integrity: sha512-oplc/3jfJeVW4F0J8wqywHkjIZvOVHtqzF0RESijepDAv5Dn/LThlGW1ftysoP4+PXVIrnghAbzPHo88fNomPQ==}
-    engines: {node: '>=20.0.0'}
-
-  '@supabase/realtime-js@2.84.0':
-    resolution: {integrity: sha512-ThqjxiCwWiZAroHnYPmnNl6tZk6jxGcG2a7Hp/3kcolPcMj89kWjUTA3cHmhdIWYsP84fHp8MAQjYWMLf7HEUg==}
-    engines: {node: '>=20.0.0'}
-
-  '@supabase/storage-js@2.84.0':
-    resolution: {integrity: sha512-vXvAJ1euCuhryOhC6j60dG8ky+lk0V06ubNo+CbhuoUv+sl39PyY0lc+k+qpQhTk/VcI6SiM0OECLN83+nyJ5A==}
-    engines: {node: '>=20.0.0'}
-
-  '@supabase/supabase-js@2.84.0':
-    resolution: {integrity: sha512-byMqYBvb91sx2jcZsdp0qLpmd4Dioe80e4OU/UexXftCkpTcgrkoENXHf5dO8FCSai8SgNeq16BKg10QiDI6xg==}
-    engines: {node: '>=20.0.0'}
 
   '@types/babel__core@7.20.5':
     resolution: {integrity: sha512-qoQprZvz5wQFJwMDqeseRXWv3rqMvhgpbXFfVyWhbx9X47POIA6i/+dXefEmZKoAgOaTdaIgNSMqMIU61yRyzA==}
@@ -1511,9 +1490,6 @@ packages:
   '@types/node@24.10.1':
     resolution: {integrity: sha512-GNWcUTRBgIRJD5zj+Tq0fKOJ5XZajIiBroOF0yvj2bSU1WvNdYS/dn9UxwsujGW4JX06dnHyjV2y9rRaybH0iQ==}
 
-  '@types/phoenix@1.6.6':
-    resolution: {integrity: sha512-PIzZZlEppgrpoT2QgbnDU+MMzuR6BbCjllj0bM70lWoejMeNJAxCchxnv7J3XFkI8MpygtRpzXrIlmWUBclP5A==}
-
   '@types/prop-types@15.7.15':
     resolution: {integrity: sha512-F6bEyamV9jKGAFBEmlQnesRPGOQqS2+Uwi0Em15xenOxHaf2hv6L8YCVn3rPdPJOiJfPiCnLIRyvwVaqMY3MIw==}
 
@@ -1531,9 +1507,6 @@ packages:
 
   '@types/stack-utils@2.0.3':
     resolution: {integrity: sha512-9aEbYZ3TbYMznPdcdr3SmIrLXwC/AKZXQeCf9Pgao5CKb8CyHuEX5jzWPTkvregvhRJHcpRO6BFoGW9ycaOkYw==}
-
-  '@types/ws@8.18.1':
-    resolution: {integrity: sha512-ThVF6DCVhA8kUGy+aazFQ4kXQ7E1Ty7A3ypFOe0IcJV8O/M511G99AW24irKrW56Wt44yG9+ij8FaqoBGkuBXg==}
 
   '@types/yargs-parser@21.0.3':
     resolution: {integrity: sha512-I4q9QU9MQv4oEOz4tAHJtNz1cwuLxn2F3xcc2iV5WdqLPpUnj30aUuxt1mAxYTG+oe8CZMV/+6rU4S4gRDzqtQ==}
@@ -1616,10 +1589,11 @@ packages:
     engines: {node: '>=10.0.0'}
     deprecated: this version has critical issues, please update to the latest version
 
-  '@yaatal/client@https://codeload.github.com/Yaatal-labs/Yaatal-SDK/tar.gz/b9786875cab6bb23b9295d25dbbf316d59bf9034':
-    resolution: {tarball: https://codeload.github.com/Yaatal-labs/Yaatal-SDK/tar.gz/b9786875cab6bb23b9295d25dbbf316d59bf9034}
+  '@yaatal/client@https://codeload.github.com/Yaatal-labs/Yaatal-SDK/tar.gz/6f14c1b4823a4b63b1c089f8301f3694a7421ca0':
+    resolution: {tarball: https://codeload.github.com/Yaatal-labs/Yaatal-SDK/tar.gz/6f14c1b4823a4b63b1c089f8301f3694a7421ca0}
     version: 0.1.0-beta.0
     engines: {node: '>=18'}
+    hasBin: true
 
   abort-controller@3.0.0:
     resolution: {integrity: sha512-h8lQ8tacZYnR3vNQTgibj+tODHI5/+l06Au2Pcriv/Gmet0eaj4TwWH41sO9wnHDiQsEj19q0drzdWdeAHtweg==}
@@ -3706,6 +3680,7 @@ packages:
   react-native-gifted-chat@2.8.1:
     resolution: {integrity: sha512-x4Kq0YvmaHqQg/ENAmFzwcjJyH31cGrCWETFzUMmTZgWsXkkiJ1MamTnkLGQp6deVxM6G0QNxrF7IZnBOeMbsw==}
     engines: {node: '>=18'}
+    deprecated: Maintenance mode - development moved to @kesha-antonov/react-native-chat (https://www.npmjs.com/package/@kesha-antonov/react-native-chat)
     peerDependencies:
       react: '>=18.0.0'
       react-native: '*'
@@ -6163,6 +6138,10 @@ snapshots:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.19.1
 
+  '@pi-spi/qrcode@1.0.0':
+    dependencies:
+      qrcode: 1.5.4
+
   '@react-native-async-storage/async-storage@2.2.0(react-native@0.76.5(@babel/core@7.28.5)(@babel/preset-env@7.28.5(@babel/core@7.28.5))(@types/react@18.3.27)(react@18.3.1))':
     dependencies:
       merge-options: 3.0.4
@@ -6530,43 +6509,6 @@ snapshots:
     dependencies:
       '@sinonjs/commons': 3.0.1
 
-  '@supabase/auth-js@2.84.0':
-    dependencies:
-      tslib: 2.8.1
-
-  '@supabase/functions-js@2.84.0':
-    dependencies:
-      tslib: 2.8.1
-
-  '@supabase/postgrest-js@2.84.0':
-    dependencies:
-      tslib: 2.8.1
-
-  '@supabase/realtime-js@2.84.0':
-    dependencies:
-      '@types/phoenix': 1.6.6
-      '@types/ws': 8.18.1
-      tslib: 2.8.1
-      ws: 8.18.3
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-
-  '@supabase/storage-js@2.84.0':
-    dependencies:
-      tslib: 2.8.1
-
-  '@supabase/supabase-js@2.84.0':
-    dependencies:
-      '@supabase/auth-js': 2.84.0
-      '@supabase/functions-js': 2.84.0
-      '@supabase/postgrest-js': 2.84.0
-      '@supabase/realtime-js': 2.84.0
-      '@supabase/storage-js': 2.84.0
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-
   '@types/babel__core@7.20.5':
     dependencies:
       '@babel/parser': 7.28.5
@@ -6628,8 +6570,6 @@ snapshots:
     dependencies:
       undici-types: 7.16.0
 
-  '@types/phoenix@1.6.6': {}
-
   '@types/prop-types@15.7.15': {}
 
   '@types/qrcode@1.5.6':
@@ -6649,10 +6589,6 @@ snapshots:
   '@types/semver@7.7.1': {}
 
   '@types/stack-utils@2.0.3': {}
-
-  '@types/ws@8.18.1':
-    dependencies:
-      '@types/node': 24.10.1
 
   '@types/yargs-parser@21.0.3': {}
 
@@ -6762,7 +6698,9 @@ snapshots:
 
   '@xmldom/xmldom@0.8.11': {}
 
-  '@yaatal/client@https://codeload.github.com/Yaatal-labs/Yaatal-SDK/tar.gz/b9786875cab6bb23b9295d25dbbf316d59bf9034': {}
+  '@yaatal/client@https://codeload.github.com/Yaatal-labs/Yaatal-SDK/tar.gz/6f14c1b4823a4b63b1c089f8301f3694a7421ca0':
+    dependencies:
+      '@pi-spi/qrcode': 1.0.0
 
   abort-controller@3.0.0:
     dependencies:
