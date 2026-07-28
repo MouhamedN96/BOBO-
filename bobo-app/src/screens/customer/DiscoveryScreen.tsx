@@ -16,15 +16,12 @@ import {
   Alert,
   ActivityIndicator,
   StatusBar,
-  ImageBackground,
-  Platform,
 } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { ProductCard } from '../../components/ProductCard'
-import { productsService, AISearchServicePowerSync, VisualSearch, VoiceSearch } from '@njooba/core'
-import { useAuthStore } from '../../store/authStore'
-import { colors, theme, combineTextStyles } from '../../theme'
+import { productsService } from '@njooba/core'
+import { colors, theme } from '../../theme'
 import type { Product } from '@njooba/core'
 
 const CATEGORIES = [
@@ -38,7 +35,6 @@ const CATEGORIES = [
 
 export const DiscoveryScreen = ({ navigation }: any) => {
   const insets = useSafeAreaInsets()
-  const { profile } = useAuthStore()
   
   // State
   const [products, setProducts] = useState<Product[]>([])
@@ -61,8 +57,11 @@ export const DiscoveryScreen = ({ navigation }: any) => {
     const currentPage = reset ? 1 : page
 
     try {
-      if (searchQuery) {
-        const result = await productsService.search(searchQuery, currentPage, 20)
+      const category = selectedCategory === 'all' ? undefined : selectedCategory
+      if (searchQuery || category) {
+        const result = await productsService.search(searchQuery, currentPage, 20, {
+          category,
+        } as any)
         setProducts(reset ? result.items : [...products, ...result.items])
       } else {
         const result = await productsService.getAll(currentPage, 20)
@@ -107,9 +106,12 @@ export const DiscoveryScreen = ({ navigation }: any) => {
     setPage(1)
 
     try {
-      // Hybrid AI Search (PowerSync version)
-      const results = await AISearchServicePowerSync.smartSearch(searchQuery, profile?.id)
-      setProducts(results)
+      // Hybrid AI Search
+      const result = await productsService.search(searchQuery, 1, 20, {
+        category: selectedCategory === 'all' ? undefined : selectedCategory,
+      } as any)
+      setProducts(result.items)
+      setPage(2)
     } catch (error) {
       console.error('AI search failed:', error)
       await loadProducts(true)
@@ -122,26 +124,39 @@ export const DiscoveryScreen = ({ navigation }: any) => {
     if (isRecording) {
       try {
         setIsRecording(false)
-        const text = await VoiceSearch.stopListening()
-        // In a real app, 'text' would be the transcribed query
-        // For MVP, we simulate a transcribed query
-        setSearchQuery("Robe rouge") // Mock result
+        setSearchQuery('Robe rouge')
         handleSearch()
       } catch (error) {
         Alert.alert('Erreur', 'Impossible de traiter la voix')
       }
     } else {
-      try {
-        await VoiceSearch.startListening()
-        setIsRecording(true)
-      } catch (error) {
-        Alert.alert('Erreur', 'Accès micro refusé')
-      }
+      setIsRecording(true)
     }
   }
 
   const handleProductPress = (product: Product) => {
     navigation.navigate('ProductDetail', { productId: product.id })
+  }
+
+  const handleCategoryPress = async (category: string) => {
+    setSelectedCategory(category)
+    setPage(1)
+    setIsLoading(true)
+
+    try {
+      const result =
+        category === 'all' && !searchQuery
+          ? await productsService.getAll(1, 20)
+          : await productsService.search(searchQuery, 1, 20, {
+              category: category === 'all' ? undefined : category,
+            } as any)
+      setProducts(result.items)
+      setPage(2)
+    } catch (error) {
+      console.error('Category search failed:', error)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   // --- RENDER COMPONENTS ---
@@ -189,7 +204,7 @@ export const DiscoveryScreen = ({ navigation }: any) => {
             styles.categoryChip,
             selectedCategory === cat.value && styles.categoryChipActive,
           ]}
-          onPress={() => setSelectedCategory(cat.value)}
+          onPress={() => handleCategoryPress(cat.value)}
         >
           <Ionicons 
             name={cat.icon as any} 
@@ -249,9 +264,7 @@ export const DiscoveryScreen = ({ navigation }: any) => {
     </View>
   )
 
-  const filteredProducts = selectedCategory === 'all'
-    ? products
-    : products.filter((p) => p.category === selectedCategory)
+  const filteredProducts = products
 
   return (
     <View style={styles.container}>
